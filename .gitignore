@@ -1,0 +1,14 @@
+# Claude Code — personal/local overrides (never shared)
+CLAUDE.local.md
+.claude/settings.local.json
+
+# Python bytecode cruft (e.g. from compiling the hook)
+__pycache__/
+*.py[oc]
+
+# OS / editor cruft
+.DS_Store
+*.swp
+
+# Note: this repo intentionally TRACKS the .claude/ skeleton — that's the point.
+# Only the personal-override files above are ignored.
