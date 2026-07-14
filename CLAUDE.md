@@ -6,9 +6,11 @@ under `.claude/` and when to reach for each piece*. For the project itself (what
 point at the skills and `README.md`. Keeping detail OUT of here is deliberate: it stays small, loads
 every session, and never goes stale because the depth lives in the skills/docs it points to.
 
-> This is **claude-scaffold** tuned for **computer-vision & data-science** work. Run **`/intake`** once
-> after installing — it interviews you for your stack (tracker, config, data versioning) and switches the
-> matching **tool skills** on/off via `settings.json` `skillOverrides`, then fills the `<PLACEHOLDERS>`.
+> This is **claude-scaffold** tuned for **computer-vision & data-science** work. Two one-time setup steps,
+> **in order**: **`/intake`** picks the *stack* (tracker, config, data versioning — flips the matching
+> **tool skills** on/off via `settings.json` `skillOverrides` and fills the stack `<PLACEHOLDERS>`), then
+> **`/bootstrap`** builds the *shape* (the `conf/` tree and `train.py`/`eval.py` the skills describe).
+> Skip `/bootstrap` and the skills document a project that doesn't exist.
 
 **How the config loads:**
 - **Skills** auto-surface by their `description` — invoke the matching skill *before* acting in its
@@ -30,7 +32,9 @@ The few rules that apply to essentially every change (fuller policy — code idi
 - **Config over constants** — hyperparameters and paths flow through the config system, never hardcoded
   or read from the environment in the middle of business logic.
 - **Deps via `uv`** — add with `uv add` so `pyproject.toml` + `uv.lock` stay in sync; never hand-edit.
-- **Don't hand-format** — the `validate-python` hook (ruff) owns style.
+- **Don't hand-format** — the `validate-python` hook (ruff) owns style. Note its bite: it runs
+  `ruff check --fix` after *every* Edit/Write, so an import added in one edit and used in the next gets
+  auto-deleted as F401 in between. Write the import and its usage in the **same** edit.
 
 ## Skills — `.claude/skills/<name>/SKILL.md`
 Two tiers. **Workflow skills** are always on (tool-agnostic, the CV/DS work itself). **Tool skills** are
@@ -77,6 +81,7 @@ Hydra for plain OmegaConf, etc., without touching the workflow skills that refer
 | Command | Does |
 |---|---|
 | `/intake` | one-time onboarding — interviews you for your stack, writes `skillOverrides`, fills `<PLACEHOLDERS>` |
+| `/bootstrap` | one-time project skeleton — generates the `conf/` tree + `train.py`/`eval.py` the skills assume, then back-fills the placeholders that only become answerable once that code exists. Run **after** `/intake` |
 | `/review` | review the current `git diff` for bugs + cleanups |
 | `/wrapup` | close out the session — record → (commit) → land, as a checklist |
 | `/<command>` | `<what it does>` |

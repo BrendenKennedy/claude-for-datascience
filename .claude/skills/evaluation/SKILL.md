@@ -38,11 +38,26 @@ The metric encodes what "good" means — choose it from the task and the cost of
   per-class PR curves, not just the mean.
 - **Segmentation** — mean **IoU** (Jaccard) / Dice per class over the mask; watch boundary vs. interior
   errors and tiny/rare classes that a global mean drowns out.
+- **Anomaly detection** (industrial/factory defect finding) — the model emits an **anomaly score**, not a
+  class, so the metric set is its own thing:
+  - **Image-level AUROC** — can it tell a defective part from a good one at all? The headline number.
+  - **Pixel-level AUROC** — does the heatmap land *on* the defect? Beware: defects are a tiny fraction of
+    pixels, so pixel AUROC looks high even for a mediocre localizer. Report **AUPRO** (per-region overlap)
+    or pixel **AP** alongside it — they don't let a big blurry blob score well.
+  - **NEVER report accuracy.** A line running 99.5% good parts gets 99.5% accuracy by calling everything
+    good. Accuracy on an AD test set measures the defect rate, not the model.
+  - Defect *types* are usually unseen in training; report AUROC **per defect type** — a model can ace
+    `scratch` and completely miss `contamination`, and the mean hides it.
 
 **Operating point:** a threshold-free metric (AUC/mAP) ranks models; deployment needs one chosen
 **operating point**. Pick the threshold on the **validation** set from the PR curve at the
 precision/recall trade the task demands (e.g. high-recall screening vs. high-precision alerting) — never
 on the test set. Record the chosen threshold as an artifact so eval and serving agree.
+
+For **anomaly detection** this is the whole ballgame, and it's a business decision before it's a modelling
+one: an escaped defect (false negative) and a scrapped good part (false positive) have different costs, and
+the factory knows those numbers. Pick the score threshold on validation against *that* ratio, log it as an
+artifact, and never re-tune it on test.
 
 ## A deterministic eval script, separate from training
 Eval lives in its own entry point (`<PLACEHOLDER: eval.py / src/<pkg>/eval.py>`), not a tail appended to

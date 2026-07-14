@@ -63,17 +63,28 @@ PyTorch Lightning trainers. Call it once, then still **explicitly log the resolv
 Autolog and manual `log_*` coexist — autolog for the boilerplate, manual for what's project-specific.
 
 ## Where runs are stored (tracking URI)
-- **Local (default):** with no URI set, runs land in `./mlruns/`. Fine for solo work; add `mlruns/` to
-  `.gitignore` (runs are data, not source — version them via `data-dvc` if they must be shared).
-- **Remote server:** point at a shared tracking server so runs are centralized:
+> **The `./mlruns/` file store is DEAD on MLflow 3.x.** Every tutorial says runs land in `./mlruns/` by
+> default. On 3.x that raises `MlflowException` on the **first** `set_experiment` call: *"The filesystem
+> tracking backend is in maintenance mode."* Don't burn an hour on this, and don't reach for the
+> `MLFLOW_ALLOW_FILE_STORE=true` escape hatch — it only forces the corpse to move. Use a database backend.
+
+- **Local default: `MLFLOW_TRACKING_URI=sqlite:///mlflow.db`** — a local SQLite file, no server to run, and
+  a real DB backend, so 3.x is happy. Set it in `.env`.
+- **Where artifacts actually land — the confusing part.** With that URI set in-process (no `mlflow server`),
+  *metadata* goes to `mlflow.db` but *artifacts* still go to **`./mlruns/<exp_id>/<run_id>/artifacts/`**.
+  So `mlruns/` reappears on disk even though the file-store *backend* is gone — it is now just an artifact
+  directory. (`./mlartifacts/` is the default only under a standalone `mlflow server`.) Gitignore
+  `mlflow.db`, `mlruns/`, and `mlartifacts/`; version artifacts via `data-dvc` if they must be shared.
+- **Remote server:** point at a shared tracking server (`http://<host>:5000`); the code does not change.
+- Read the URI from the config system, **not** `os.environ` mid-logic — per the *config over constants*
+  always-on convention (see `config-hydra`). The config interpolates the env var in one place:
   ```python
-  mlflow.set_tracking_uri("<PLACEHOLDER: MLFLOW_TRACKING_URI, e.g. http://<host>:5000>")
+  mlflow.set_tracking_uri(cfg.tracking.uri)   # conf/config.yaml: uri: ${oc.env:MLFLOW_TRACKING_URI}
   ```
-  Read the URI from the config system, **not** `os.environ` mid-logic — per the *config over constants*
-  always-on convention (see `config-hydra`). Same code runs locally or remote; only the URI changes.
 
 ## Compare runs
-- **`mlflow ui`** (add `--backend-store-uri ./mlruns` or `--host`/`--port` as needed) — opens the web UI:
+- **`mlflow ui --backend-store-uri sqlite:///mlflow.db`** (add `--host`/`--port` as needed) — opens the UI.
+  A bare `mlflow ui` assumes the dead file store and shows you nothing. Then:
   sort the run table by a metric, multi-select runs to overlay metric curves, diff their params.
 - Programmatic: `mlflow.search_runs(experiment_names=[...])` returns a DataFrame for scripted comparison
   and to feed the `eval-analyst` agent's error analysis.

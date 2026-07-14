@@ -90,6 +90,13 @@ uv run python train.py +trainer.grad_clip=1.0
 uv run python train.py -m optimizer.lr=1e-3,3e-4 model=resnet50,vit_b16
 ```
 
+> **Struct mode: you can only override a key the config already declares.** `key=val` on a key that isn't
+> in the composed config fails with `ConfigCompositionException: Could not override 'key' ... use +key=`.
+> The `+` exists for genuine one-offs — it is **not** the fix for a key your entry point always needs.
+> Declare those in `config.yaml` with a `null` default. The two that bite every project:
+> `ckpt: null` (so `eval.py ckpt=models/best.pt` works) and `resume: null` (so `train.py
+> resume=models/last.pt` works). Miss `resume` and everything passes until the day you need to resume.
+
 The last line launches 4 runs (2 lrs × 2 models). Log each one with `tracking-mlflow` so the sweep is
 comparable.
 
@@ -134,8 +141,16 @@ Keep `${oc.env:...}` reads **in the config layer** — never `os.environ` in the
 Hydra creates a fresh working dir per run (default `outputs/YYYY-MM-DD/HH-MM-SS/`, or a sweep dir under
 `multirun/` with `-m`) and `chdir`s into it, writing the composed config to `.hydra/config.yaml`. Resolve
 paths against the **original** cwd via `hydra.utils.get_original_cwd()` or use absolute paths, or a
-relative `load(...)` will look inside the run dir. Point checkpoints/artifacts at this dir so every run is
-self-contained.
+relative `open(...)`/`load(...)` will silently look inside the run dir.
+
+**Where things go** (Hydra's docs say "keep everything in the run dir"; that conflicts with `data-dvc`,
+which needs one *stable* path to track — resolve it like this):
+- **Data in, checkpoints out, at the *original* cwd** — `Path(get_original_cwd()) / "models" / "best.pt"`.
+  DVC cannot track a path with a timestamp in it.
+- **Everything else in the run dir** — logs, plots, the resolved `.hydra/config.yaml`. Per-run, disposable.
+
+The tracker is what reconciles the two: log the checkpoint as a run artifact, so the *run* keeps its own
+copy even though the file on disk lives at a stable path.
 
 ## Snapshot the config that actually ran (log it)
 The composed `cfg` — not the source YAML — is what ran. Resolve interpolations and hand a plain container

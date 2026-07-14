@@ -53,8 +53,13 @@ interview now answers; leave the rest for the user. The answer-determined ones:
   in `data-dvc` and `datasets`. Fill if the user named a dataset/path during intake; otherwise leave.
 
 Don't invent values. If an answer wasn't given, leave the placeholder and list it in the summary.
-Placeholders unrelated to these four questions (testing commands, governance domains, architecture doc,
-seed helper, etc.) are out of scope — leave them for the user.
+
+**Out of scope on purpose — say so, don't silently skip.** Two other classes of placeholder exist, and the
+user WILL assume this command handled them unless step 4 tells them otherwise:
+- **Code-dependent** (the `conf/` tree, the train/eval entry points, the seed helper, the dataset slug).
+  These can't be filled until the project skeleton exists — that's **`/bootstrap`**, the next command.
+- **Human-decision** (data-remote URL, `governance` policy domains, `software-architect` architecture
+  principles, the org rules in `memory/policy/`). These need the user, not an agent. Leave and list them.
 
 ## 4. Report
 
@@ -62,7 +67,10 @@ Print a short summary:
 
 - **Skills on:** the `skillOverrides` keys now `on`. **Skills off:** the rest.
 - **Placeholders filled:** file + what each became.
-- **Still needs you:** every `<PLACEHOLDER` left unresolved (from the step-3 grep), so the user knows the
-  manual follow-ups.
+- **Still needs you:** every `<PLACEHOLDER` left unresolved (from the step-3 grep), **split into the two
+  classes above** — "will be filled by `/bootstrap`" vs. "needs your decision". A flat list reads as a
+  to-do the user must do by hand, which is wrong and makes it look like intake failed.
 
-Then remind the user this command is one-time — re-run it only to change stacks.
+Then: **this command is one-time** — re-run only to change stacks. **Next step is `/bootstrap`**, which
+builds the skeleton (`conf/` + `train.py`/`eval.py`) that every skill's examples assume. Say this
+explicitly — the scaffold is not usable until it's run.

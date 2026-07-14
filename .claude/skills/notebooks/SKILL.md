@@ -53,9 +53,14 @@ the module, drive from the notebook."
 
 ## Strip outputs before committing
 Committed outputs bloat the repo, leak data into diffs, and make every re-run a noisy diff. Strip them:
-- **Automated (preferred):** `nbstripout` — `uv run --with nbstripout nbstripout --install` registers a git
-  filter so outputs are stripped on every commit. A repo pre-commit / Claude `validate-*` hook can enforce
-  the same (`<PLACEHOLDER: wire nbstripout into pre-commit or a PostToolUse hook>`).
+- **Automated (preferred):** `nbstripout` — a **git filter**, so it strips on `git add`/commit no matter who
+  made the edit (a Claude `PostToolUse` hook would only catch the agent's). Installing it as a dev dep does
+  **nothing on its own** — the filter must be activated, and it writes to `.git/config`, which is local and
+  **not shared**, so *every clone must run it*:
+  ```bash
+  uv run nbstripout --install
+  uv run nbstripout --status     # verify the filter is active — do this before trusting it
+  ```
 - **Manual:** Kernel → *Restart Kernel and Clear All Outputs* before saving.
 - **Never commit** heavy outputs (rendered images, large tables), model weights, or dataset files from a
   notebook — data/model artifacts are versioned by the `data-dvc` tool skill, not git. See the data/PII

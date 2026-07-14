@@ -82,7 +82,8 @@ are versioned there.
 
 ## Resume — restore state, not just weights
 ```python
-ckpt = torch.load(path, map_location=device)
+# weights_only=False is REQUIRED here — see the warning below. Never point this at an untrusted file.
+ckpt = torch.load(path, map_location=device, weights_only=False)
 model.load_state_dict(ckpt["model"]); optimizer.load_state_dict(ckpt["optimizer"])
 scheduler.load_state_dict(ckpt["scheduler"]); scaler.load_state_dict(ckpt["scaler"])
 torch.set_rng_state(ckpt["rng"]["torch"]); np.random.set_state(ckpt["rng"]["numpy"])
@@ -90,12 +91,24 @@ start_epoch = ckpt["epoch"] + 1
 ```
 A true resume continues the same trajectory — restore optimizer/scheduler/scaler/RNG, not just `model`.
 
+> **`torch.load` defaults to `weights_only=True` since torch 2.6 — and the checkpoint above is not
+> weights-only.** Precisely: `weights_only=True` accepts tensors and simple builtins, and rejects arbitrary
+> pickled objects. The RNG block above stores `np.random.get_state()` (a numpy tuple), so a bare
+> `torch.load(path, map_location=device)` raises `UnpicklingError: Weights only load failed` on a checkpoint
+> this very skill told you to write. A checkpoint of *only* tensors + plain dicts/lists/strings loads fine
+> under the default — so don't cargo-cult `weights_only=False` everywhere; use it when the checkpoint really
+> does carry non-tensor state (RNG, config objects), which the resume dict above does. Never pass it for a
+> checkpoint you downloaded — unpickling an untrusted file executes arbitrary code. This bites on resume,
+> exactly when you can least afford it.
+
 ## The loop — AMP, grad accumulation, scheduler, device
 ```python
-scaler = torch.cuda.amp.GradScaler(enabled=cfg.amp)
+# torch.cuda.amp.GradScaler is DEPRECATED (FutureWarning on torch ≥2.4) — use the torch.amp form:
+scaler = torch.amp.GradScaler(device.type, enabled=cfg.amp)
 for step, (x, y) in enumerate(loader):
     x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)   # explicit device move
-    with torch.autocast(device_type="cuda", enabled=cfg.amp):                 # mixed precision
+    with torch.autocast(device_type=device.type, enabled=cfg.amp):            # device.type, NOT "cuda" —
+                                                                              # hardcoding breaks CPU runs
         loss = criterion(model(x), y) / cfg.grad_accum_steps                  # scale for accumulation
     scaler.scale(loss).backward()
     if (step + 1) % cfg.grad_accum_steps == 0:                                # effective batch = bs * accum
@@ -109,6 +122,22 @@ scheduler.step()                              # per-epoch here; per-step schedul
   where the recipe calls for it. Log the LR each step to the tracker.
 - **Device:** move model and every batch explicitly with `.to(device)`; never assume CUDA — fall back to
   CPU when `torch.cuda.is_available()` is False (matches `env-uv`'s GPU sanity check).
+
+## Anomaly detection — the loop above may not apply
+One-class / industrial AD (see `datasets` for the layout) trains on **normal samples only**, and its
+methods split into two shapes that this skill's loop treats very differently:
+- **Gradient-trained** (autoencoder, student–teacher, normalizing-flow) — the loop above holds, but the
+  "loss" is reconstruction/distillation error on normal data, and there is **no label `y`**. Early stopping
+  on a *val loss over normal parts* is weak (it says nothing about defect separability) — prefer stopping
+  on **val image-level AUROC** using a small held-out defect set (see `evaluation`).
+- **Fit, not trained** (PaDiM, PatchCore, and most memory-bank/embedding methods) — there is **no backward
+  pass at all**. You run a frozen pretrained backbone over the normal set and store features. Epochs, AMP,
+  schedulers, and `optimizer.step()` are all meaningless here; forcing them into a training loop just to
+  satisfy the skeleton produces confusing dead code. The "checkpoint" is the fitted memory bank / Gaussian
+  stats — still save it with the config + git SHA, so it's just as reproducible.
+
+If you're on a fit-not-trained method, say so explicitly in the run and skip the loop rather than faking a
+one-epoch pass. Reproducibility still applies: seed the sampling/coreset step.
 
 ## Early stopping
 Monitor the **validation** metric (never train loss), stop after `patience` epochs without improvement,

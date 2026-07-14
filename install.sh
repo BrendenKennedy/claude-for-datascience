@@ -52,9 +52,13 @@ find "$TARGET/.claude/hooks" "$TARGET/.claude/scripts" -type f \
 
 echo
 echo "Done: $copied added, $skipped skipped (already present)."
-echo "Next:"
+echo "Next (the first two are the setup, in order):"
 echo "  1. In Claude Code, run /intake — it interviews you for your stack (tracker/config/data"
 echo "     versioning), writes .claude/settings.json skillOverrides, and fills the stack placeholders."
-echo "  2. Fill any remaining <PLACEHOLDER>s /intake lists (test commands, architecture doc, dataset paths)."
-echo "  3. Edit .claude/settings.json permissions for this project's tools."
-echo "  4. Rename .claude/skills/_example and the *_TEMPLATE.md files as you build real ones."
+echo "  2. Run /bootstrap — it builds the project skeleton the skills describe (conf/ tree, train.py,"
+echo "     eval.py, seed helper) and back-fills the placeholders that need that code to exist."
+echo "     Until this runs, the skills document a project you don't have."
+echo "  3. Fill any remaining <PLACEHOLDER>s the two commands list (architecture doc, policy domains,"
+echo "     data-remote URL) — those need your decisions, not an agent's guess."
+echo "  4. Edit .claude/settings.json permissions for this project's tools."
+echo "  5. Rename .claude/skills/_example and the *_TEMPLATE.md files as you build real ones."
