@@ -5,8 +5,17 @@
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(git switch:*)",
+      "Bash(git merge:*)",
+      "Bash(uv run:*)",
+      "Bash(uv sync:*)",
+      "Bash(uv add:*)",
+      "Bash(uvx ruff:*)"
     ],
+    "_allow_comment": "Covers what /wrapup (commit/branch/merge) and /bootstrap (uv, pytest, ruff) actually run. Deliberately absent: git checkout (can discard work) and git push (landing is an explicit user ask — see the memory skill).",
     "deny": [
       "Bash(rm -rf:*)",
       "Bash(sudo:*)",

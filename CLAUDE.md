@@ -109,4 +109,4 @@ demand, never auto-loaded. The read/write process is the `memory` skill; this is
 |---|---|
 | `.claude/settings.json` | permissions + hook wiring + `skillOverrides` (the tool-skill profile `/intake` writes) |
 | `.claude/scripts/` | helper scripts called by hooks/commands (README inside) |
-| `.mcp.json` | MCP server wiring, if/when you add MCP servers (lives at repo root) |
+| `.mcp.json` | MCP server wiring — **not shipped**; create at repo root if/when you add MCP servers |

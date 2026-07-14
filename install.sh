@@ -42,7 +42,8 @@ while IFS= read -r src; do
   printf '  add:           %s\n' "$rel"
   copied=$((copied + 1))
 done < <(
-  find "$SCRIPT_DIR/.claude" -type f
+  # Exclude bytecode: a dirty working tree (e.g. a compiled hook) must not ship .pyc into targets.
+  find "$SCRIPT_DIR/.claude" -type f ! -name '*.py[co]' ! -path '*/__pycache__/*'
   echo "$SCRIPT_DIR/CLAUDE.md"
 )
 

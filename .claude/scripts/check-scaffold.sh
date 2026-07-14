@@ -91,8 +91,10 @@ ok "config: settings.json parses; wired hooks exist, are executable, and compile
 # ---- 4. INSTALL -------------------------------------------------------------
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
-src_count="$(find .claude -type f | wc -l)"; src_count=$((src_count + 2))  # + CLAUDE.md + the version stamp
-src_ph="$(grep -rho '<PLACEHOLDER' .claude CLAUDE.md | wc -l)"
+# The find filter here MUST mirror install.sh's — a mismatch shows up as a file-count failure below.
+src_count="$(find .claude -type f ! -name '*.py[co]' ! -path '*/__pycache__/*' | wc -l)"
+src_count=$((src_count + 2))  # + CLAUDE.md + the version stamp
+src_ph="$(grep -rho --exclude-dir=__pycache__ '<PLACEHOLDER' .claude CLAUDE.md | wc -l)"
 
 ./install.sh "$tmp" >/dev/null || fail "install.sh exited nonzero"
 dst_count="$(find "$tmp" -type f | wc -l)"
