@@ -1,0 +1,15 @@
+# .env.example — the env vars this project's entry points read.
+# Copy to .env and fill in. .env is gitignored and loaded by src/<pkg>/env.py at each entry
+# point's top (Hydra's ${oc.env:...} reads the PROCESS env — nothing works without this file).
+
+# Root of all datasets — conf/dataset/*.yaml resolve data_dir against this.
+DATA_ROOT=
+
+# --- Experiment tracker (keep the block for the tracker /intake chose; delete the other) ---
+# MLflow: must be a database URI — MLflow 3.x refuses the old ./mlruns file store.
+MLFLOW_TRACKING_URI=sqlite:///mlflow.db
+
+# Weights & Biases: get the key from wandb.ai/authorize. Never commit a filled .env.
+# WANDB_API_KEY=
+# WANDB_PROJECT=
+# WANDB_MODE=offline    # uncomment on a box without egress; ship later with `wandb sync`

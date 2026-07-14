@@ -125,6 +125,8 @@ W&B over MLflow? `/intake` flips it — no edits to the workflow skills that ref
 │   ├── validate-python.py    # PostToolUse: ruff format + check on edited .py
 │   └── validate-bash.sh      # PreToolUse: blocks rm -rf of root/home
 ├── scripts/                  # helper scripts called by hooks/commands (README inside)
+├── templates/                # starter files /bootstrap copies INTO the target project:
+│                             #   .env.example · .pre-commit-config.yaml · a project CI workflow
 └── memory/                   # agent working memory — pulled on demand, never auto-loaded
     ├── roadmap.md            #   living backlog
     ├── sessions/             #   dated session summaries (+ _template.md)
@@ -179,6 +181,10 @@ install.sh                    # the drop-in installer
    models/                    # checkpoint outputs: best.pt, last.pt (data-versioned, not git)
    tests/                     # tiny-data smoke + determinism + split-leakage tests
    ```
+
+   It also instantiates the delivery templates: `.env.example` (the env vars the entry points read),
+   `.pre-commit-config.yaml` (ruff + nbstripout on human commits), and a CI workflow that runs the
+   offline test tier.
 3. **Fill the remaining `<PLACEHOLDER>`s** the two commands list — these need *your* decisions, not an
    agent's guess: the architecture doc for `software-architect`, the policy domains in `memory/policy/`,
    the data-remote URL.

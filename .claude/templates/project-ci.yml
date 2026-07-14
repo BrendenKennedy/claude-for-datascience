@@ -1,0 +1,24 @@
+# CI for the TARGET project — exactly the offline tier of the testing skill's ladder.
+# Unit tests are offline-safe by that skill's rule (no env, no network, no GPU), so this needs no
+# secrets and no GPU runner; GPU smokes stay local because they skip cleanly where there's no device.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Sync locked environment
+        run: uv sync --frozen
+      - name: Lint & format check
+        run: |
+          uvx ruff format --check .
+          uvx ruff check .
+      - name: Unit tests (offline tier)
+        run: uv run pytest

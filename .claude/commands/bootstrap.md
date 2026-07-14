@@ -159,6 +159,20 @@ Non-negotiables when emitting it:
   on day one, and the real detector drops into the same slot with zero downstream change. This is never
   throwaway: you need the oracle path permanently for the ablation above.
 
+### 3d. Instantiate the delivery templates
+
+`.claude/templates/` ships starter files for the *target* project — copy each to its destination
+(never-clobber, §4's rule applies) and fill the marked slots:
+
+| Template | → Destination | Fill |
+|---|---|---|
+| `dot-env.example` | `.env.example` | keep the tracker block `/intake` chose, delete the other; `<pkg>` in the header |
+| `pre-commit-config.yaml` | `.pre-commit-config.yaml` | nothing — suggest `uvx pre-commit install` in the report |
+| `project-ci.yml` | `.github/workflows/ci.yml` | nothing — it runs exactly the offline tier |
+
+Also ensure the target's `.gitignore` covers `.env` (add it if absent — an `.env.example` next to an
+unignored `.env` is a credential leak waiting to happen). Report each instantiated file in §7.
+
 ## 4. Never clobber (but *do* extend)
 
 Before **creating** a file: if it already exists and is non-empty, **stop and ask** — do not overwrite. This
@@ -202,8 +216,8 @@ side by side in the same files** — read each, don't sweep:
 - **Resolve now — `testing/SKILL.md`'s four `/bootstrap fills this` slots.** Step 5 computed every
   answer; write them in: the package import check (`uv run python -c "import <pkg>"` with the real
   package name), the tiny-data-smoke invocation (the real test-file path from step 5.2), the seed-helper
-  path (`<pkg>.seed.seed_everything`), and the Preconditions `.env` keys (the ones the entry points
-  actually read — `DATA_ROOT`, the tracker URI). A verification skill whose commands are blank teaches
+  path (`<pkg>.seed.seed_everything`), and the Preconditions `.env` keys — read them straight from the
+  `.env.example` you instantiated in §3d. A verification skill whose commands are blank teaches
   the agent to guess; these four lines are the whole point of that skill.
 - **Leave (human-decision):** the data remote URL, `software-architect`'s architecture principles,
   `governance`'s policy domains, and the org-specific rules in `memory/policy/`. Don't invent values — a
