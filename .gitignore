@@ -25,9 +25,11 @@ __pycache__/
 *.safetensors
 *.pb
 
-# Datasets / large data — adjust these to match your project's actual layout
-data/
-datasets/
+# Datasets / large data — adjust these to match your project's actual layout.
+# ANCHORED with a leading slash on purpose: a bare `datasets/` matches at ANY depth, which also swallowed
+# .claude/skills/datasets/ — the skill silently never got committed. Keep the slash.
+/data/
+/datasets/
 
 # DVC: ignore the local cache + tmp, but KEEP *.dvc pointer files and dvc.lock tracked
 # (never add *.dvc here — those pointers are how DVC finds your data)
