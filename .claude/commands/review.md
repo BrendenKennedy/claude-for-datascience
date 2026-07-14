@@ -1,14 +1,15 @@
 ---
-description: Review the current working-tree diff for bugs and cleanups
+description: Review the current diff by dispatching the code-reviewer agent (correctness + the ML/CV lens)
 ---
 
-Review the current change in this repo.
+Review the current change in this repo — by **dispatching the `code-reviewer` subagent**, which carries
+the full review lens (correctness plus ML/CV: device/dtype mismatches, tensor-shape bugs, data leakage,
+seed handling, checkpoint/resume, metric sanity). Don't review inline; a hand-rolled checklist here
+would just be a weaker copy of that agent.
 
-1. Run `git diff` and `git diff --staged` to see what changed. If nothing is staged or unstaged,
-   say so and stop.
-2. Read enough surrounding context to judge each hunk correctly.
-3. Report findings grouped by severity — **Blocking · Should-fix · Nit** — each as
-   `path:line — problem → fix`. Verify each finding is real before reporting it.
-4. End with a one-line verdict.
-
-Keep it to the diff. Don't review unchanged code, and don't invent findings if the diff is clean.
+1. Run `git diff` and `git diff --staged`. If **both** are empty, say so and stop — don't dispatch an
+   agent at an empty diff.
+2. Launch the `code-reviewer` agent on the change. Pass along anything the user scoped the review to
+   (specific files, a stated concern like "check the device handling").
+3. Relay its findings **verbatim** — grouped Blocking · Should-fix · Nit, each `path:line — problem →
+   fix`, ending with its one-line verdict. Don't re-review, re-filter, or soften them.

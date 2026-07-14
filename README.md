@@ -108,6 +108,7 @@ W&B over MLflow? `/intake` flips it — no edits to the workflow skills that ref
 │   ├── tracking-mlflow/      # [tool] MLflow experiment tracking
 │   ├── config-hydra/         # [tool] Hydra config composition + sweeps
 │   ├── data-dvc/             # [tool] DVC data/model versioning
+│   ├── tracking-wandb/       # [tool] Weights & Biases tracking (off by default; /intake flips)
 │   ├── datasets/             # splits, label formats (COCO/YOLO/VOC), provenance, leakage
 │   ├── training/             # train/fine-tune loop — seeds, checkpoints, resume
 │   ├── evaluation/           # metrics (mAP/IoU/PR), eval harness, error analysis

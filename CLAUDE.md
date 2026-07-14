@@ -67,7 +67,7 @@ always-on skills that reference them.
 | `tracking-mlflow` | MLflow experiment tracking | on |
 | `config-hydra` | Hydra config composition + sweeps (on OmegaConf) | on |
 | `data-dvc` | DVC data/model versioning | on |
-| `<tracking-wandb>` | Weights & Biases | off (fast-follow) |
+| `tracking-wandb` | Weights & Biases experiment tracking | off (`/intake` flips) |
 | `<skill-name>` | `<a tool you add>` | — |
 
 ## Subagents — `.claude/agents/<name>.md`

@@ -12,7 +12,10 @@ Ask these — one question each, with the defaults marked. Batch them into a sin
 where the tool allows:
 
 - **Experiment tracker** — MLflow *(default)* / Weights & Biases / none.
-- **Config system** — Hydra *(default)* / plain OmegaConf / argparse.
+- **Config system** — Hydra *(default)* / plain OmegaConf / argparse. **Warn at selection time** if
+  the answer is plain OmegaConf: no dedicated skill backs it yet (fast-follow), so until it exists the
+  project has no config skill — and `/bootstrap`'s skeleton is Hydra-shaped. Put the same warning in
+  the option text itself, and restate it in the step-4 report if chosen.
 - **Data versioning** — DVC *(default)* / git-lfs / none.
 - **Baseline confirm** — the scaffold assumes **uv** for envs and an **NVIDIA GPU** (local or over SSH).
   Confirm that holds, and ask whether the GPU box is **aarch64/ARM** (e.g. a Grace-Blackwell / DGX Spark)
@@ -38,9 +41,10 @@ Edit `.claude/settings.json` — set each key to `"on"` or `"off"` from the answ
 | `data-dvc` | data versioning = DVC |
 
 Exactly one tracker key and one config key should be `on`; the unchosen siblings go `off`. If the tracker
-or data-versioning answer is "none", leave all keys in that group `off`. **Note:** `tracking-wandb` and
-`config-omegaconf` skills may not be authored yet — writing their override is a harmless no-op until they
-exist (fast-follow), so set them anyway.
+or data-versioning answer is "none", leave all keys in that group `off`. **Note:** the `config-omegaconf`
+skill is not authored yet — writing its override is a harmless no-op until it exists (fast-follow), so set
+it anyway, but the selection-time warning in step 1 is mandatory. (`tracking-wandb` IS authored — W&B is a
+fully backed choice.)
 
 ## 3. Fill the answerable `<PLACEHOLDER>`s
 
@@ -49,6 +53,8 @@ interview now answers; leave the rest for the user. The answer-determined ones:
 
 - **MLflow tracking URI** — `.claude/skills/tracking-mlflow/SKILL.md` (`set_tracking_uri(...)`). Fill if
   the user gave a URI; otherwise leave and flag it. Skip entirely if the tracker isn't MLflow.
+- **W&B project name** — `.claude/skills/tracking-wandb/SKILL.md` (`wandb.init(project=...)`). Fill if
+  the user named a project; otherwise leave and flag it. Skip entirely if the tracker isn't W&B.
 - **DVC remote URL** — `.claude/skills/data-dvc/SKILL.md` (`dvc remote add -d storage ...`). Fill with the
   user's remote if given; else flag. Skip if data versioning isn't DVC.
 - **ARM torch index** — `.claude/skills/env-uv/SKILL.md` (`<PLACEHOLDER: ARM torch index for your box>`).
