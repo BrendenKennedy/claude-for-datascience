@@ -31,7 +31,8 @@ The few rules that apply to essentially every change (fuller policy — code idi
   are defined once and respected everywhere. (See `datasets` + `data-governance`.)
 - **Config over constants** — hyperparameters and paths flow through the config system, never hardcoded
   or read from the environment in the middle of business logic.
-- **Deps via `uv`** — add with `uv add` so `pyproject.toml` + `uv.lock` stay in sync; never hand-edit.
+- **Deps via `uv`** — add with `uv add` so `pyproject.toml` + `uv.lock` stay in sync; never hand-edit
+  (the `guard-pyproject` hook blocks dependency edits to enforce this).
 - **Don't hand-format** — the `validate-python` hook (ruff) owns style. Note its bite: it runs
   `ruff check --fix` after *every* Edit/Write, so an import added in one edit and used in the next gets
   auto-deleted as F401 in between. Write the import and its usage in the **same** edit.
@@ -93,7 +94,10 @@ always-on skills that reference them.
 | Hook | Event | Does |
 |---|---|---|
 | `validate-bash.sh` | PreToolUse · Bash | blocks recursive force-deletes of root/home (+ your project rules) |
+| `guard-pyproject.py` | PreToolUse · Edit/Write | blocks dependency edits to `pyproject.toml` — deps go through `uv add`/`uv remove` |
+| `guard-notebook-outputs.py` | PreToolUse · Edit/Write | blocks writing `.ipynb` files that carry cell outputs — notebooks commit clean |
 | `validate-python.py` | PostToolUse · Edit/Write | runs `uvx ruff format` + `ruff check --fix` on edited `.py` files |
+| `run-leakage-tests.sh` | Stop | runs any `leakage` tests before the session ends; a failure blocks the stop |
 
 ## Memory — `.claude/memory/`
 The **data store** for cross-session working memory (refined summaries, **not** raw dumps) — pulled in on

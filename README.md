@@ -123,7 +123,10 @@ W&B over MLflow? `/intake` flips it — no edits to the workflow skills that ref
 │   └── _TEMPLATE.md
 ├── hooks/
 │   ├── validate-python.py    # PostToolUse: ruff format + check on edited .py
-│   └── validate-bash.sh      # PreToolUse: blocks rm -rf of root/home
+│   ├── validate-bash.sh      # PreToolUse: blocks rm -rf of root/home
+│   ├── guard-pyproject.py    # PreToolUse: dependency edits go through `uv add`, not hand-edits
+│   ├── guard-notebook-outputs.py # PreToolUse: .ipynb writes must be output-stripped
+│   └── run-leakage-tests.sh  # Stop: leakage tests run before the session ends; red blocks the stop
 ├── scripts/                  # helper scripts called by hooks/commands (README inside)
 ├── templates/                # starter files /bootstrap copies INTO the target project:
 │                             #   .env.example · .pre-commit-config.yaml · a project CI workflow

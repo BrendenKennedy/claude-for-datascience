@@ -42,6 +42,19 @@
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/validate-bash.sh"
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guard-pyproject.py"
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guard-notebook-outputs.py"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -51,6 +64,16 @@
           {
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/validate-python.py"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/run-leakage-tests.sh"
           }
         ]
       }
