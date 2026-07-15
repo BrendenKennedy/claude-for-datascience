@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to claude-scaffold. Format follows [Keep a Changelog](https://keepachangelog.com/);
+All notable changes to claude-for-datascience. Format follows [Keep a Changelog](https://keepachangelog.com/);
 versions follow [SemVer](https://semver.org/). Installed projects can compare their
 `.claude/scaffold-version` stamp against these entries to see what they're missing.
 

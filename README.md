@@ -1,8 +1,8 @@
-# claude-scaffold — a CV/DS starting point for Claude Code
+# claude-for-datascience — a CV/DS starting point for Claude Code
 
-[![CI](https://github.com/BrendenKennedy/claude-scaffold/actions/workflows/ci.yml/badge.svg)](https://github.com/BrendenKennedy/claude-scaffold/actions/workflows/ci.yml)
+[![CI](https://github.com/BrendenKennedy/claude-for-datascience/actions/workflows/ci.yml/badge.svg)](https://github.com/BrendenKennedy/claude-for-datascience/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Release](https://img.shields.io/github/v/release/BrendenKennedy/claude-scaffold)](https://github.com/BrendenKennedy/claude-scaffold/releases)
+[![Release](https://img.shields.io/github/v/release/BrendenKennedy/claude-for-datascience)](https://github.com/BrendenKennedy/claude-for-datascience/releases)
 
 **The problem.** [Claude Code](https://claude.com/claude-code) is a coding agent that works in your
 repo, and out of the box it knows nothing about how ML projects go wrong: it will happily write an
@@ -31,11 +31,11 @@ lives as governed canon instead of scattered rules, and how work is remembered a
 
 ```bash
 # 1. Get the scaffold (clone it once; reuse it for every project):
-git clone https://github.com/BrendenKennedy/claude-scaffold.git ~/dev/claude-scaffold
+git clone https://github.com/BrendenKennedy/claude-for-datascience.git ~/dev/claude-for-datascience
 
 # 2. Drop it into the project you want to scaffold:
 cd ~/path/to/my-project
-~/dev/claude-scaffold/install.sh .
+~/dev/claude-for-datascience/install.sh .
 
 # 3. Then, inside Claude Code in that project — BOTH, in this order:
 /intake      # picks your STACK    (tracker / config / data-versioning)

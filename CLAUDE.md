@@ -6,7 +6,7 @@ under `.claude/` and when to reach for each piece*. For the project itself (what
 point at the skills and `README.md`. Keeping detail OUT of here is deliberate: it stays small, loads
 every session, and never goes stale because the depth lives in the skills/docs it points to.
 
-> This is **claude-scaffold** tuned for **computer-vision & data-science** work. Two one-time setup steps,
+> This is **claude-for-datascience** tuned for **computer-vision & data-science** work. Two one-time setup steps,
 > **in order**: **`/intake`** picks the *stack* (tracker, config, data versioning — flips the matching
 > **tool skills** on/off via `settings.json` `skillOverrides` and fills the stack `<PLACEHOLDERS>`), then
 > **`/bootstrap`** builds the *shape* (the `conf/` tree and `train.py`/`eval.py` the skills describe).
