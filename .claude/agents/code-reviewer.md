@@ -1,6 +1,12 @@
 ---
 name: code-reviewer
-description: Reviews code changes for correctness and quality, with an ML/CV lens (device/dtype mismatches, tensor-shape/broadcasting bugs, data leakage, non-determinism, checkpoint/resume, metrics, unlogged config). Use after writing or modifying code, or when the user asks for a review of the current diff. Triggers: review this, review the diff, tensor/shape bug, device/dtype, cuda/cpu, fp16/fp32, data leakage, seed/determinism, checkpoint/resume, metric looks off. Returns findings grouped by severity with file:line and concrete fixes.
+description: >
+  Reviews code changes for correctness and quality, with an ML/CV lens (device/dtype mismatches,
+  tensor-shape/broadcasting bugs, data leakage, non-determinism, checkpoint/resume, metrics,
+  unlogged config). Use after writing or modifying code, or when the user asks for a review of the
+  current diff. Triggers: review this, review the diff, tensor/shape bug, device/dtype, cuda/cpu,
+  fp16/fp32, data leakage, seed/determinism, checkpoint/resume, metric looks off. Returns findings
+  grouped by severity with file:line and concrete fixes.
 tools: Bash, Read, Grep, Glob
 ---
 

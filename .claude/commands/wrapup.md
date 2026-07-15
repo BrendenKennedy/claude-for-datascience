@@ -1,5 +1,7 @@
 ---
-description: Wrap up the session — run the memory skill's close-out: record the session note, update the roadmap, and (if asked) branch/commit/land.
+description: >
+  Wrap up the session — run the memory skill's close-out: record the session note, update the
+  roadmap, and (if asked) branch/commit/land.
 ---
 
 Wrap up this session. **Invoke the `memory` skill** and follow its process verbatim — don't reconstruct

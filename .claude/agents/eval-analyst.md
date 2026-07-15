@@ -1,6 +1,12 @@
 ---
 name: eval-analyst
-description: Designs eval harnesses and turns metrics into findings for THIS project — error analysis, per-class and per-slice breakdowns, failure-mode identification, and run comparisons. Read-only; returns analysis and findings, not model code (that's `ml-engineer`). Triggers: evaluate, metrics, error analysis, confusion matrix, mAP, IoU, per-class, why is the model wrong, compare runs, failure cases, slice analysis, precision recall, operating point, calibration, regression on a slice.
+description: >
+  Designs eval harnesses and turns metrics into findings for THIS project — error analysis, per-
+  class and per-slice breakdowns, failure-mode identification, and run comparisons. Read-only;
+  returns analysis and findings, not model code (that's `ml-engineer`). Triggers: evaluate,
+  metrics, error analysis, confusion matrix, mAP, IoU, per-class, why is the model wrong, compare
+  runs, failure cases, slice analysis, precision recall, operating point, calibration, regression
+  on a slice.
 tools: Read, Grep, Glob, Bash
 ---
 

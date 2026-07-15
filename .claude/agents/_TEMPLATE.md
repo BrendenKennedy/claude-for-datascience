@@ -1,6 +1,9 @@
 ---
 name: <kebab-case-name>
-description: <When to dispatch this agent. Be specific — the harness routes by this text. Include concrete trigger phrases the user might say. Lead with the capability, then "Use when…", then "Triggers: …".>
+description: >
+  <When to dispatch this agent. Be specific — the harness routes by this text. Include concrete
+  trigger phrases the user might say. Lead with the capability, then "Use when…", then "Triggers:
+  …".>
 tools: Read, Grep, Glob   # least-privilege: list only what this agent needs. Omit to inherit all. Add Bash/Write/Edit only if required.
 # model: sonnet           # optional: pin a model tier for this agent
 ---

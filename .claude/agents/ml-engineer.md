@@ -1,6 +1,12 @@
 ---
 name: ml-engineer
-description: Builds and refactors models and train/eval loops — architectures, losses, optimizers, LR schedulers, checkpointing, mixed precision, dataloaders. Use to implement or change a model, wire up a training run, add a loss/metric, or fix device/dtype/shape issues. Writes code (unlike the read-only software-architect). Triggers: train loop, model architecture, loss function, optimizer, scheduler, checkpoint, fine-tune, mixed precision, dataloader, implement the model, backbone, transfer learning.
+description: >
+  Builds and refactors models and train/eval loops — architectures, losses, optimizers, LR
+  schedulers, checkpointing, mixed precision, dataloaders. Use to implement or change a model,
+  wire up a training run, add a loss/metric, or fix device/dtype/shape issues. Writes code (unlike
+  the read-only software-architect). Triggers: train loop, model architecture, loss function,
+  optimizer, scheduler, checkpoint, fine-tune, mixed precision, dataloader, implement the model,
+  backbone, transfer learning.
 tools: Read, Grep, Glob, Edit, Write, Bash
 ---
 

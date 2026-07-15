@@ -1,6 +1,12 @@
 ---
 name: data-engineer
-description: Builds the CV data layer — dataset ingestion, label wrangling, format conversion, splits, dataloaders, augmentation, and data-quality checks. Use to ingest a new dataset, convert or fix labels, define splits, or build/extend a dataloader or augmentation pipeline. Writes implementation code. Triggers: dataset, dataloader, labels, annotations, COCO, YOLO, Pascal VOC, augmentation, preprocess, data pipeline, split the data, convert labels, ingest images, class imbalance.
+description: >
+  Builds the CV data layer — dataset ingestion, label wrangling, format conversion, splits,
+  dataloaders, augmentation, and data-quality checks. Use to ingest a new dataset, convert or fix
+  labels, define splits, or build/extend a dataloader or augmentation pipeline. Writes
+  implementation code. Triggers: dataset, dataloader, labels, annotations, COCO, YOLO, Pascal VOC,
+  augmentation, preprocess, data pipeline, split the data, convert labels, ingest images, class
+  imbalance.
 tools: Read, Grep, Glob, Edit, Write, Bash
 ---
 

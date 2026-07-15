@@ -1,6 +1,11 @@
 ---
 name: software-architect
-description: Designs implementation plans and weighs architectural trade-offs for THIS project, pre-loaded with its core principles. Use to plan a new subsystem, evaluate a design fork, or structure a change before implementing. Read-only; returns a plan, not code. Complements the built-in Plan agent by carrying this project's architecture. Triggers: design, architecture, plan this, how should we structure, design fork, trade-offs, before we build.
+description: >
+  Designs implementation plans and weighs architectural trade-offs for THIS project, pre-loaded
+  with its core principles. Use to plan a new subsystem, evaluate a design fork, or structure a
+  change before implementing. Read-only; returns a plan, not code. Complements the built-in Plan
+  agent by carrying this project's architecture. Triggers: design, architecture, plan this, how
+  should we structure, design fork, trade-offs, before we build.
 tools: Read, Grep, Glob, Bash
 ---
 
