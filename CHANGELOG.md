@@ -4,6 +4,46 @@ All notable changes to claude-for-datascience. Format follows [Keep a Changelog]
 versions follow [SemVer](https://semver.org/). Installed projects can compare their
 `.claude/scaffold-version` stamp against these entries to see what they're missing.
 
+## [0.3.0] — 2026-07-15
+
+The security pass: the threat model is now stated instead of implied, secrets have enforcement on
+every path (agent writes, shell reads, human commits), and destructive operations get a
+confirmation dialog that fires in every permission mode. Also the public-facing cleanup: the repo
+is renamed, the README restructured, and the YAML frontmatter GitHub chokes on is fixed.
+
+### Added
+- **`guard-secrets.py` hook** (PreToolUse · Edit/Write) — blocks writes containing
+  credential-shaped tokens (AWS/GitHub/Anthropic/OpenAI/Google/Slack/Stripe/HuggingFace keys,
+  private-key blocks). `.env` itself is exempt: gitignored, and the one legitimate home for a real
+  key. gitleaks added to the pre-commit template for the human-commit path.
+- **`memory/policy/security.md`** — the security governance canon: the guardrails-vs-boundary
+  threat model, secrets handling (rotate-don't-delete), what may be logged to trackers, egress
+  rules, supply chain (`uv add` only, `weights_only=True` on downloaded checkpoints). Registered
+  as the third domain in the `governance` skill's index with real trigger words.
+- **Three-tier bash guard** — `validate-bash.sh` grows an ASK tier via `permissionDecision:
+  "ask"`: recursive deletes, `git reset --hard` / `clean -f` / pathspec-checkout / `restore` /
+  force-push / `branch -D` / history rewrites, `dvc gc`/`destroy`/`remove`, and deletion of ML
+  assets (`data/`, `models/`, `*.pt`, `mlflow.db`, `uv.lock`, `.dvc`) now force a confirmation
+  dialog **in every permission mode, including `bypassPermissions`**. BLOCK tier gains
+  curl/wget-pipe-to-interpreter. 41-case block/ask/allow battery.
+- **README "Security model" section** — states the threat model plainly: hooks are guardrails
+  against agent mistakes, the permission system is the boundary.
+
+### Changed
+- **Renamed: `claude-scaffold` → `claude-for-datascience`** (GitHub redirects the old URL). All
+  in-repo references updated.
+- **README restructured** — two-paragraph why/how abstract up top, then structured reference:
+  quick start, lifecycle diagram, a five-row layer table, the tree; `/bootstrap` output and
+  troubleshooting moved into collapsibles. 234 → ~170 lines.
+- **`settings.json` deny list hardened** — `.env` shell-read denials (`cat .env` and variants),
+  `Read(.env.local)`/`Read(.env.production)`; `.env.example` deliberately stays readable.
+
+### Fixed
+- **YAML frontmatter GitHub couldn't parse** — the six agent files and `commands/wrapup.md`
+  carried single-line descriptions with a later `: `, which YAML reads as an illegal nested
+  mapping ("Error in user YAML" banners on github.com). Folded to the `description: >` block style
+  the skills already use; all 26 frontmatter blocks now parse.
+
 ## [0.2.0] — 2026-07-14
 
 The "pro product" pass: two audits (newcomer onboarding + internals quality) drove down every
