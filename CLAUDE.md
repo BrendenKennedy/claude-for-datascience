@@ -47,7 +47,7 @@ always-on skills that reference them.
 **Chassis (always on):**
 | Skill | Reach for it when… |
 |---|---|
-| `governance` | writing/editing code, changing the data/label model, or touching data licensing/PII — the policy index + locate→load→apply→record protocol over `memory/policy/` |
+| `governance` | writing/editing code, changing the data/label model, touching data licensing/PII, or handling secrets/credentials/egress — the policy index + locate→load→apply→record protocol over `memory/policy/` |
 | `testing` | running or writing a test, verifying a change, or claiming it works — the real commands + the tiny-data smoke (a forward pass on a fixture) for this repo |
 | `memory` | recalling past work, recording a session, updating the roadmap, or branching/landing a unit of work |
 | `wave-planning` | about to build with **more than one agent** — carve a settled goal into a collision-free wave manifest, batching on file-disjointness |
@@ -96,6 +96,7 @@ always-on skills that reference them.
 | `validate-bash.sh` | PreToolUse · Bash | blocks recursive force-deletes of root/home (+ your project rules) |
 | `guard-pyproject.py` | PreToolUse · Edit/Write | blocks dependency edits to `pyproject.toml` — deps go through `uv add`/`uv remove` |
 | `guard-notebook-outputs.py` | PreToolUse · Edit/Write | blocks writing `.ipynb` files that carry cell outputs — notebooks commit clean |
+| `guard-secrets.py` | PreToolUse · Edit/Write | blocks writes containing credential-shaped tokens (API keys, private keys) — secrets stay in `.env` |
 | `validate-python.py` | PostToolUse · Edit/Write | runs `uvx ruff format` + `ruff check --fix` on edited `.py` files |
 | `run-leakage-tests.sh` | Stop | runs any `leakage` tests before the session ends; a failure blocks the stop |
 
@@ -108,7 +109,7 @@ demand, never auto-loaded. The read/write process is the `memory` skill; this is
 | `.claude/memory/sessions/` | dated refined summaries of past sessions (`YYYY-MM-DD-<slug>.md`; start from `sessions/_template.md`) |
 | `.claude/memory/reference/` | stable how-we-do-X notes that recur but don't warrant a full skill |
 | `.claude/memory/roadmap.md` | living backlog / future scope / TODOs |
-| `.claude/memory/policy/` | governance canon — `data-governance.md` (datasets/labels/licensing/PII), `model-governance.md` (reproducibility, model cards) |
+| `.claude/memory/policy/` | governance canon — `data-governance.md` (datasets/labels/licensing/PII), `model-governance.md` (reproducibility, model cards), `security.md` (secrets, logging/egress, threat model) |
 
 ## Other config
 | Path | Role |

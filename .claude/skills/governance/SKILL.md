@@ -11,10 +11,12 @@ description: >
   governs a change, load the right canon file, apply that domain's rules, record a judgment call, or add a
   new policy domain. Triggers: governance, policy, which policy applies, where/how to access the policy,
   apply a policy, is this allowed by policy, compliance, add a policy / new policy domain, decision log,
-  ADR, record a decision — plus each domain's own sharp trigger words, folded in here as you add domains:
-  <PLACEHOLDER: e.g. for code conventions — add/edit a module, error handling, logging, config, idioms;
-  for data — data model, entity, field, migration, invariant; for security — secret, credential, PII,
-  data egress, is this safe to log/send>.
+  ADR, record a decision — plus each domain's own sharp trigger words, folded in here as you add
+  domains. For security (authored): secret, credential, API key, token, .env, PII, data egress,
+  is this safe to log/send, leaked key, rotate a credential, threat model, prompt injection,
+  supply chain, torch.load weights_only. <PLACEHOLDER: e.g. for code conventions — add/edit a
+  module, error handling, logging, config, idioms; for data — data model, entity, field,
+  migration, invariant>.
 ---
 
 # Governance — the index + access protocol over this repo's policy
@@ -35,13 +37,14 @@ Policy text lives in exactly one place — the canon file — never copied into 
 elsewhere.
 
 ## Policy index (the domains + where their canon lives)
-> Ships with the two CV/DS domains below. Add a row per new governed domain (e.g. a `code-conventions.md`
+> Ships with the three domains below. Add a row per new governed domain (e.g. a `code-conventions.md`
 > once your Python idioms stabilize); each row's canon file goes in `.claude/memory/policy/`.
 
 | Domain | Governs | Canon (`.claude/memory/policy/`) | Decision log | Apply when… |
 |---|---|---|---|---|
 | `data-governance` | datasets, labels, licensing, PII/sensitive imagery, splits & leakage | `data-governance.md` | `data-governance-decision-log.md` | ingesting/splitting/labeling data, or adding a dataset |
 | `model-governance` | trained-model reproducibility, checkpoint provenance, model cards, release + weight licensing | `model-governance.md` | `model-governance-decision-log.md` | training, checkpointing, or releasing a model |
+| `security` | secrets & credentials, what may be logged/egressed, supply chain, the guardrails-vs-boundary threat model | `security.md` | `security-decision-log.md` | touching anything that holds or moves a credential, adding logging/tracking calls, or sending data anywhere external |
 | `<code-conventions>` | how any source module is written — the repeated Python idioms | `<code-conventions.md>` | — | writing or editing any source file (add this canon when your idioms settle) |
 
 _Add a row per new domain. If a domain produces a generated artifact (a spec the code implements), note

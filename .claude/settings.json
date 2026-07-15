@@ -19,9 +19,14 @@
     "deny": [
       "Bash(rm -rf:*)",
       "Bash(sudo:*)",
+      "Bash(cat .env)",
+      "Bash(cat .env:*)",
       "Read(.env)",
+      "Read(.env.local)",
+      "Read(.env.production)",
       "Read(CLAUDE.local.md)"
-    ]
+    ],
+    "_deny_comment": "The safety floor — secrets never enter the transcript. .env.example is deliberately NOT denied (it ships empty values and the skills read it for the expected keys); validate-bash.sh blocks shell reads of every other .env file. Full threat model: .claude/memory/policy/security.md."
   },
   "_skillOverrides_comment": "Tool-skill on/off profile. `/intake` writes this — enable the tools you use, disable the rest. Workflow + chassis skills are always on and are NOT listed here.",
   "skillOverrides": {
@@ -53,6 +58,10 @@
           {
             "type": "command",
             "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guard-notebook-outputs.py"
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guard-secrets.py"
           }
         ]
       }

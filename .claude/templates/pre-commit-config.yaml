@@ -12,3 +12,7 @@ repos:
     rev: 0.8.1
     hooks:
       - id: nbstripout # notebooks commit clean — outputs stripped (see the notebooks skill)
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks # secrets never reach a commit (guard-secrets covers the agent path; this covers yours)

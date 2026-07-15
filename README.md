@@ -87,6 +87,7 @@ flowchart LR
 │   ├── validate-bash.sh      # blocks rm -rf of root/home
 │   ├── guard-pyproject.py    # dependency edits must go through `uv add`
 │   ├── guard-notebook-outputs.py  # .ipynb writes must be output-stripped
+│   ├── guard-secrets.py      # blocks writes containing credential-shaped tokens
 │   └── run-leakage-tests.sh  # leakage tests run at session end; red blocks the stop
 ├── scripts/                  # helpers used by hooks/commands
 ├── templates/                # files /bootstrap copies into the target project
@@ -159,6 +160,22 @@ eval that re-loads the checkpoint, a resume.
   want the scaffold's copy.
 
 </details>
+
+## Security model
+
+Stated plainly so nobody has to infer it: **the hooks are guardrails against agent *mistakes*, not a
+sandbox against an adversary.** They pattern-match and fail open; a determined bypass defeats them.
+The actual security boundary is Claude Code's permission system (the `settings.json` allow/deny
+lists) and whatever OS-level isolation you run.
+
+What is enforced today: secrets stay out of the transcript (`.env` reads are denied on both the Read
+and shell paths), credential-shaped tokens can't be written into tracked files (`guard-secrets.py`,
+plus gitleaks on human commits via the pre-commit template), dependencies only enter through
+`uv add`, notebook outputs never reach git, and `git push` is deliberately absent from the
+allow-list — landing work remotely is always an explicit user ask.
+
+The full threat model and the org-specific slots (secret manager, approved egress destinations) live
+in `.claude/memory/policy/security.md`, governed like everything else through the `governance` skill.
 
 ## License
 
