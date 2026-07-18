@@ -28,7 +28,9 @@ For each tool skill that is `"on"` in `settings.json` `skillOverrides`:
 2. **Research the gap.** WebFetch the tool's official changelog/release notes across the delta
    (WebSearch to locate them). Hunting only for what invalidates or improves the skill's
    documented facts: breaking changes, renamed/removed APIs, deprecations, changed defaults, new
-   canonical patterns. Ignore features the skill doesn't document.
+   canonical patterns. Ignore features the skill doesn't document. When the delta spans many
+   releases, delegate the reading to a general-purpose subagent and take back a summary — raw
+   release notes don't belong in the main context.
 3. **Verify empirically — don't trust the changelog either.** Run the skill's load-bearing
    commands against the installed version (imports, the key API calls on toy inputs, CLI
    `--help`). Cheap, and it catches both changelog omissions and this skill's own drift. The

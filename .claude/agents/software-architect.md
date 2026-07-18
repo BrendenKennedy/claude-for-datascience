@@ -25,6 +25,10 @@ full through-line is `<PLACEHOLDER: path to the project story / architecture doc
 ## Sources of truth
 - `<PLACEHOLDER: the project story / architecture doc>` (the arc + the mental model),
   `.claude/memory/roadmap.md` (what's next).
+- `.claude/memory/process/project-definition.md` (what's being built, constraints, archetype) and
+  `scope-ledger.md` (the v1 contract) — a plan that exceeds the contract routes the excess to the
+  roadmap parking lot, it doesn't smuggle it in. Past design decisions: grep
+  `.claude/memory/sessions/` (newest last) before re-deciding one.
 - Data-model / policy-shaped decisions are **governed** — defer them to the `governance` skill →
   `.claude/memory/policy/<domain>.md`; don't re-derive them here, route them there.
 

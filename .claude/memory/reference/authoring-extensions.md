@@ -91,6 +91,17 @@ tools: Read, Grep, Glob   # least-privilege — list only what it needs; omit to
 **Conventions that bite:**
 - **Description = capability → "Use when…" → "Triggers:".** Match how users actually phrase requests.
   It's the only thing the dispatcher routes on.
+- **Subagents have no Skill tool — wire skills deliberately.** `skills:` in the frontmatter preloads
+  full skill content at startup: use it for the 1–2 **always-on** skills the agent's non-negotiables
+  depend on (`ml-engineer` → `training`, `eval-analyst` → `evaluation, datasets`). **Never preload a
+  tool-gated skill** — it may be off; the agent instead checks `settings.json` `skillOverrides` and
+  Reads the active one's `SKILL.md`. Any "consult skill X" line in an agent body must resolve to one
+  of those two mechanics, or it's a dead reference.
+- **Policy + memory wiring.** Agents flag governance calls to the caller, never decide them; before
+  treating an odd-but-deliberate choice as a defect, they check the decision logs
+  (`memory/policy/*-decision-log.md`, `memory/process/decision-log.md`). Planning-shaped agents also
+  read `memory/process/project-definition.md` + `scope-ledger.md` (build inside the contract) and
+  grep `memory/sessions/` before re-deciding something settled.
 - **Least-privilege tools.** A read-only reviewer/analyst gets `Read, Grep, Glob` (+ `Bash` if it must
   run things) and **no** `Write`/`Edit`. Add write tools only for agents that build code
   (`ml-engineer`, `data-engineer`). See `code-reviewer` / `software-architect` (read-only) vs the

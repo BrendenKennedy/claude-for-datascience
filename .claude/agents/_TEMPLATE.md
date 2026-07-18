@@ -5,6 +5,7 @@ description: >
   trigger phrases the user might say. Lead with the capability, then "Use when…", then "Triggers:
   …".>
 tools: Read, Grep, Glob   # least-privilege: list only what this agent needs. Omit to inherit all. Add Bash/Write/Edit only if required.
+# skills: datasets        # optional: ALWAYS-ON skills whose full content preloads at startup. Only the 1-2 this agent's non-negotiables depend on — it costs context. NEVER preload tool-gated skills (they may be off; the agent checks skillOverrides and Reads the active one's file instead).
 # model: sonnet           # optional: pin a model tier for this agent
 ---
 
@@ -25,5 +26,9 @@ Notes on writing a good subagent:
   actually phrases requests. Vague descriptions never get dispatched.
 - Keep the agent narrow. One job, done well. Spawn separate agents rather than one do-everything agent.
 - Give least-privilege tools. A read-only reviewer shouldn't have Write/Edit.
+- Subagents have NO Skill tool: "consult skill X" must mean either preloaded via `skills:` or
+  "Read `.claude/skills/<name>/SKILL.md`" — say which.
+- Reference policy + memory where relevant: flag governance calls to the caller (don't decide them);
+  check decision logs before treating a recorded choice as a mistake.
 - The body is the agent's system prompt. Tell it how to work, what to check, and what to return.
 -->

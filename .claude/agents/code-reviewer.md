@@ -20,7 +20,9 @@ set of files), not the whole codebase.
    - **Correctness:** logic errors, off-by-one, wrong conditionals, unhandled None/empty/error cases,
      race conditions, resource leaks.
    - **Contracts:** does it honor the function/API contract, types, and the project's own conventions
-     (the policy canon in `.claude/memory/policy/`, via the `governance` skill)?
+     (the policy canon in `.claude/memory/policy/`)? Before flagging an odd-looking but deliberate
+     choice, check the decision logs (`.claude/memory/policy/*-decision-log.md`,
+     `.claude/memory/process/decision-log.md`) — a recorded decision is context, not a defect.
    - **Security:** injected input, secrets in code, unsafe shell/SQL, path traversal.
    - **Clarity & reuse:** duplicated logic, dead code, misleading names, missing/way-off comments.
 4. Verify claims before reporting — grep for callers, check the actual signature, confirm the bug is real.
