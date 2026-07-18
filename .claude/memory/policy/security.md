@@ -61,6 +61,27 @@ and whatever OS-level isolation the machine runs. Corollaries:
 - `git push` is deliberately absent from the scaffold's allow-list — landing work remotely is an
   explicit user ask, never an agent default.
 
+## Cloud credentials & the IAM boundary (when a cloud lane is on)
+
+The same guardrails-vs-boundary model, extended to the cloud: hooks confirm-gate destructive
+cloud commands, but the **boundary is the IAM policy** attached to the agent's identity.
+
+- **The agent acts through a dedicated least-privilege identity** (e.g. the
+  `claude-for-datascience` role; starter policy in `.claude/templates/aws-iam-policy.json`) —
+  never through a human's admin profile. `aws sts get-caller-identity` before cloud work; the
+  wrong identity means stop.
+- **The policy is human-owned.** The agent never widens its own permissions — all IAM mutation
+  is hook-gated and belongs to the account owner; the starter policy's explicit `Deny` on
+  `iam:*` makes self-widening structurally impossible even if an Allow slips in elsewhere.
+- **Credentials live in the credential store** (`~/.aws/`, SSO session, or instance role) —
+  never in the repo, never in `.env` (that's app config), never echoed into the transcript.
+  The existing secrets rules apply: a leaked cloud key is rotate-don't-delete, immediately.
+- **Auditability is part of least privilege:** CloudTrail on, S3 versioning on project buckets
+  — an agent mistake should be diagnosable and reversible, not archaeological.
+- **Egress rules apply to buckets:** an S3 bucket is an external destination; the egress policy
+  above governs what data may land there, and presigned URLs are scoped and short-lived —
+  buckets are never made public.
+
 ## Supply chain
 
 - **Dependencies enter only through `uv add`** (enforced by `guard-pyproject.py`), so every dep is

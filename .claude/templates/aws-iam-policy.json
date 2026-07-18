@@ -1,0 +1,88 @@
+{
+  "_comment_replace": "Starter least-privilege policy for the claude-for-datascience IAM role. Replace PROJECT-PREFIX, ACCOUNT-ID, REGION, CLUSTER-NAME, DB-NAME, DB-USER; review every statement yourself before attaching (you own this boundary, not the agent). Scope v1: S3 + Redshift. The explicit Deny tier is the point — it survives any Allow added later by mistake. Pair with: CloudTrail on, S3 versioning on project buckets. See the infra-aws skill.",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "S3ProjectBuckets",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetBucketLocation",
+        "s3:GetBucketVersioning",
+        "s3:PutBucketVersioning",
+        "s3:GetLifecycleConfiguration",
+        "s3:PutLifecycleConfiguration",
+        "s3:CreateBucket"
+      ],
+      "Resource": "arn:aws:s3:::PROJECT-PREFIX-*"
+    },
+    {
+      "Sid": "S3ProjectObjects",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:GetObjectVersion",
+        "s3:PutObject",
+        "s3:DeleteObject",
+        "s3:AbortMultipartUpload",
+        "s3:ListMultipartUploadParts"
+      ],
+      "Resource": "arn:aws:s3:::PROJECT-PREFIX-*/*"
+    },
+    {
+      "Sid": "S3Discover",
+      "Effect": "Allow",
+      "Action": ["s3:ListAllMyBuckets"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "RedshiftDataApi",
+      "Effect": "Allow",
+      "Action": [
+        "redshift-data:ExecuteStatement",
+        "redshift-data:BatchExecuteStatement",
+        "redshift-data:DescribeStatement",
+        "redshift-data:GetStatementResult",
+        "redshift-data:ListStatements",
+        "redshift-data:CancelStatement"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "RedshiftClusterAccess",
+      "Effect": "Allow",
+      "Action": [
+        "redshift:GetClusterCredentials",
+        "redshift:DescribeClusters"
+      ],
+      "Resource": [
+        "arn:aws:redshift:REGION:ACCOUNT-ID:cluster:CLUSTER-NAME",
+        "arn:aws:redshift:REGION:ACCOUNT-ID:dbname:CLUSTER-NAME/DB-NAME",
+        "arn:aws:redshift:REGION:ACCOUNT-ID:dbuser:CLUSTER-NAME/DB-USER"
+      ]
+    },
+    {
+      "Sid": "WhoAmI",
+      "Effect": "Allow",
+      "Action": ["sts:GetCallerIdentity"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "DenyCatastrophic",
+      "Effect": "Deny",
+      "Action": [
+        "s3:DeleteBucket",
+        "s3:DeleteBucketPolicy",
+        "s3:PutBucketPolicy",
+        "s3:PutBucketAcl",
+        "s3:PutObjectAcl",
+        "redshift:DeleteCluster",
+        "redshift:ModifyCluster",
+        "iam:*",
+        "organizations:*",
+        "account:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

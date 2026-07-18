@@ -98,6 +98,23 @@ if printf '%s' "$cmd" | grep -Eq '(^|[;&|`([:space:]])dvc[[:space:]]+(gc|destroy
   ask "This DVC command discards tracked data or DVC state - confirm the pointers/commits that need those bytes are safe."
 fi
 
+# A6) Destructive AWS operations (infra-aws skill): bucket/cluster/instance removal, and any IAM
+#     mutation — the claude-for-datascience role is deliberately least-privilege; widening it is a
+#     human decision.
+if printf '%s' "$cmd" | grep -Eq '(^|[;&|`([:space:]])aws[[:space:]]+(s3[[:space:]]+rb|s3api[[:space:]]+delete-bucket|s3[[:space:]]+rm[[:space:]][^;|&]*--recursive|redshift[[:space:]]+delete-|ec2[[:space:]]+terminate-instances|sagemaker[[:space:]]+delete-)'; then
+  ask "Destructive AWS operation (bucket/cluster/instance deletion) - confirm the resource, and that its data is versioned or disposable."
+fi
+if printf '%s' "$cmd" | grep -Eq '(^|[;&|`([:space:]])aws[[:space:]]+iam[[:space:]]+(create|delete|put|attach|detach|update|add|remove|tag|untag)'; then
+  ask "IAM mutation - the agent role is deliberately least-privilege; confirm this change with the human who owns the account."
+fi
+
+# A7) Docker operations that delete state: pruning, volume removal, and compose down -v — a named
+#     volume may hold the tracking DB or Postgres.
+if printf '%s' "$cmd" | grep -Eq '(^|[;&|`([:space:]])docker[[:space:]]+(system[[:space:]]+prune|volume[[:space:]]+(rm|prune)|builder[[:space:]]+prune)' \
+   || printf '%s' "$cmd" | grep -Eq '(^|[;&|`([:space:]])docker([[:space:]]+|-)compose[[:space:]]+down[[:space:]][^;|&]*(-v([[:space:]]|$)|--volumes)'; then
+  ask "This removes Docker volumes/state (a compose volume may hold the tracking DB) - confirm it is disposable."
+fi
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Project-specific rules go here. Patterns: BLOCK = echo reason to stderr, exit 2;
 # ASK = call ask "reason". Delete this block if you have no extra rules.

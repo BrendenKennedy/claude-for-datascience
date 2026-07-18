@@ -38,7 +38,9 @@ Auto-surface by description (that text is the entire routing surface — see
   skills by archetype; all off unless flipped): tools — `env-uv` (on) · `tracking-mlflow` (on) ·
   `config-hydra` (on) · `data-dvc` (on) · `tracking-wandb` · `config-omegaconf` · `hpo-optuna`;
   lanes — `tabular` · `timeseries` · `wrangling` · `sql` · `data-acquisition` ·
-  `finetune-unsloth` · `llm-eval` · `serving` · `monitoring` (the last two flip at deploy).
+  `finetune-unsloth` · `llm-eval` · `serving` · `monitoring` (those two flip at deploy) ·
+  `infra-aws` (S3+Redshift via a least-privilege IAM role — starter policy in
+  `.claude/templates/`) · `containers` (Docker/Compose; k8s deliberately parked).
   Tool skills carry a `**Pinned:**` version line — `/skill-update` keeps the facts true for the
   version the project actually runs.
 
@@ -62,7 +64,7 @@ architecture pre-loaded) · `data-engineer` (data layer + annotation-ops tooling
 ## Hooks — `.claude/hooks/` (wired in `settings.json`)
 | Hook | Event | Does |
 |---|---|---|
-| `validate-bash.sh` | Pre · Bash | blocks root/home wipes, `.env` reads, curl-pipe-to-shell; confirm dialog on destructive ops |
+| `validate-bash.sh` | Pre · Bash | blocks root/home wipes, `.env` reads, curl-pipe-to-shell; confirm dialog on destructive ops (recursive deletes, git/dvc discards, aws bucket/cluster deletion + IAM mutation, docker volume removal) |
 | `guard-pyproject.py` | Pre · Edit/Write | dependency edits go through `uv add`/`uv remove` |
 | `guard-notebook-outputs.py` | Pre · Edit/Write | `.ipynb` must commit output-stripped |
 | `guard-secrets.py` | Pre · Edit/Write | blocks credential-shaped writes — secrets stay in `.env` |

@@ -47,7 +47,9 @@
     "sql": "off",
     "data-acquisition": "off",
     "wrangling": "off",
-    "serving": "off"
+    "serving": "off",
+    "infra-aws": "off",
+    "containers": "off"
   },
   "hooks": {
     "PreToolUse": [
