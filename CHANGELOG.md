@@ -28,6 +28,17 @@ versions follow [SemVer](https://semver.org/) per the stability contract in
   notes its generated skeleton is currently the deep-learning shape.
 
 ### Added
+- **`SessionStart` orientation hook (`.claude/hooks/session-orient.py`)** — the missing bookend to
+  `/wrapup`. On a fresh session (`startup`/`clear`) it injects a compact "where are we" briefing —
+  current phase, open gate debt, last session's focus + state + follow-ups, roadmap next — so a
+  session never starts blind. CLAUDE.md is the only always-loaded file; live process state is not,
+  so orientation otherwise depended on a skill surfacing by description match. No-ops silently
+  pre-`/intake` (ad-hoc use isn't taxed). Supersedes the roadmap's "Stop-hook gate-debt warning":
+  `Stop` fires per-turn, so gate-debt surfacing belongs at session start, not there.
+- **"Finish before handing back" convention (CLAUDE.md)** — the per-response definition-of-done:
+  the ask is actually satisfied, runtime code was exercised (not just written), decisions were
+  recorded in their one home as you went, and a closing unit of work proactively offers `/wrapup`.
+  The judgment half of the completion contract; the orientation hook is the mechanical half.
 - **`docs/TUTORIAL.md`** — the hands-on first-project walkthrough (~30 min, runs on synthetic
   data): install → `/setup`'s four stages → bringing data → the daily rhythm (expect your first
   BLOCKED gate) → `/report` → maintenance.

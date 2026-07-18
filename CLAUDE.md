@@ -31,6 +31,12 @@ The rules that apply to essentially every change (fuller policy via the `governa
 - **Terse working output** — status updates and findings, not narration; every reply becomes
   context re-read on all later turns, so brevity compounds. Full prose belongs only in
   deliverables (reports, gate reviews, explanations the user asked for).
+- **Finish before handing back** — don't return a half-done task. Before ending a turn: the ask is
+  actually satisfied (not "mostly"); code with runtime surface was exercised (`verify` / the
+  `testing` ladder), not just written; any decision/risk/scope change was recorded in its one home
+  as you went, not deferred. When a coherent unit of work closes with edits or decisions,
+  **proactively offer `/wrapup`** — don't wait to be asked. (The `SessionStart` hook handles the
+  mirror at the other end: it briefs you on phase, gate debt, and open threads at session start.)
 
 ## Skills — `.claude/skills/<name>/SKILL.md`
 Auto-surface by description (that text is the entire routing surface — see
@@ -71,6 +77,7 @@ architecture pre-loaded) · `data-engineer` (data layer + annotation-ops tooling
 ## Hooks — `.claude/hooks/` (wired in `settings.json`)
 | Hook | Event | Does |
 |---|---|---|
+| `session-orient.py` | SessionStart (startup·clear) | injects a "where are we" briefing — current phase, open gate debt, last session, roadmap next — so a session never starts blind; silent when no project is active |
 | `validate-bash.sh` | Pre · Bash | blocks root/home wipes, `.env` reads, curl-pipe-to-shell; confirm dialog on destructive ops (recursive deletes, git/dvc discards, aws bucket/cluster deletion + IAM mutation, docker volume removal) |
 | `guard-pyproject.py` | Pre · Edit/Write | dependency edits go through `uv add`/`uv remove` |
 | `guard-notebook-outputs.py` | Pre · Edit/Write | `.ipynb` must commit output-stripped |

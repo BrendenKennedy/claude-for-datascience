@@ -12,6 +12,8 @@ written gate + a decision-log line.
 ## Next
 - Run `/doctor` to confirm the skill-listing budget post-rewrite
 - Watch skill surfacing after the description rewrite; sharpen under-triggering descriptions
+- Dogfood-tune the `SessionStart` briefing: is its length right, and does the "finish before
+  handing back" DoD actually fire the `/wrapup` offer? Adjust `session-orient.py` / CLAUDE.md if not
 
 ## Someday / maybe
 - Multi-archetype `/bootstrap` skeletons (tabular/timeseries/LLM entry points — the skills now exist; the skeleton is still Hydra+CV-shaped)
@@ -19,9 +21,12 @@ written gate + a decision-log line.
 - Big-data escalation skills (polars/duckdb/spark) — when demand shows
 - Kubernetes manager, SageMaker/EC2 surface for `infra-aws`, GCP/Azure lanes — parked on demand (AWS S3+Redshift + Docker/Compose shipped in v0.8.0)
 - Data-validation tool skill (pandera/great-expectations)
-- Stop-hook gate-debt warning (stricter §3.8 enforcement)
 
 ## Done (recent)
+- `SessionStart` orientation hook + "finish before handing back" DoD convention — the completion
+  contract (mechanical + judgment halves); no orchestrator agent — 2026-07-18,
+  [session note](sessions/2026-07-18-session-start-orientation.md), branch `session-start-orientation`.
+  (Superseded the old "Stop-hook gate-debt warning" idea — Stop is per-turn.)
 - Release v0.11.0: lifecycle pass (/upgrade, check-scaffold 2b, stability contract) — 2026-07-18
 - Release v0.10.0: audit pass (58-agent adversarially-verified sweep, 45 findings fixed) + resource matrix — 2026-07-18
 - Release v0.9.0: self-hosted pass (local-stack: MinIO, CVAT, Postgres+extensions) — 2026-07-18

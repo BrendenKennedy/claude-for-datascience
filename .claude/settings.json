@@ -55,7 +55,19 @@
     "pipelines": "off",
     "training": "off"
   },
+  "_sessionStart_comment": "session-orient.py injects a 'where are we' briefing (current phase, open gate debt, last session, roadmap next) at the start of a fresh session — CLAUDE.md is the only always-loaded file; the live process state is not, so orientation would otherwise depend on a skill surfacing by description match. Matched to startup|clear only (a mid-work resume/compact still has the context). No-ops silently when no project is active (pre-/intake), so ad-hoc use isn't taxed.",
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-orient.py"
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Bash",

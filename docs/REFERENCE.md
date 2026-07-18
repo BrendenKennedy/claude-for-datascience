@@ -85,6 +85,7 @@
 | [`guard-pyproject.py`](../.claude/hooks/guard-pyproject.py) | PreToolUse · Edit|Write |  |
 | [`guard-secrets.py`](../.claude/hooks/guard-secrets.py) | PreToolUse · Edit|Write |  |
 | [`run-leakage-tests.sh`](../.claude/hooks/run-leakage-tests.sh) | Stop | a leaked split never rides out quietly. |
+| [`session-orient.py`](../.claude/hooks/session-orient.py) | SessionStart · startup|clear |  |
 | [`validate-bash.sh`](../.claude/hooks/validate-bash.sh) | PreToolUse · Bash | THREE tiers, first match wins: |
 | [`validate-python.py`](../.claude/hooks/validate-python.py) | PostToolUse · Edit|Write |  |
 
