@@ -52,6 +52,7 @@ doubles as an upstream-feedback channel.
   discipline is the real path and the wrapup step is just a backstop → ../roadmap.md
 
 ## Related
+- Branch: `scaffold-journal` · commit `d96618d`
 - Directly builds on [session-start-orientation](2026-07-18-session-start-orientation.md) (the other
   half of the completion contract — orientation in, DoD out)
 - Parallels the methodology meta-loop in PROCESS.md Part V

@@ -28,7 +28,7 @@ written gate + a decision-log line.
 ## Done (recent)
 - Scaffold self-assessment loop — `scaffold-journal.md` + wrapup scaffold-check + `/scaffold-retro`;
   the tooling's meta-loop (parallel to PROCESS.md Part V) — 2026-07-18,
-  [session note](sessions/2026-07-18-scaffold-self-assessment-loop.md), branch `scaffold-journal`.
+  [session note](sessions/2026-07-18-scaffold-self-assessment-loop.md), branch `scaffold-journal`, commit `d96618d`.
 - `SessionStart` orientation hook + "finish before handing back" DoD convention — the completion
   contract (mechanical + judgment halves); no orchestrator agent — 2026-07-18,
   [session note](sessions/2026-07-18-session-start-orientation.md), branch `session-start-orientation`, commit `e5c8083`.
