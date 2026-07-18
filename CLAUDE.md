@@ -70,7 +70,8 @@ architecture pre-loaded) · `data-engineer` (data layer + annotation-ops tooling
 ## Memory — `.claude/memory/`
 On-demand store, never auto-loaded; read/write process is the `memory` skill.
 `sessions/` (dated summaries) · `reference/` (how-we-do-X notes, incl. `authoring-extensions.md` —
-read it before extending `.claude/`) · `roadmap.md` (backlog; doubles as the scope parking lot) ·
+read it before extending `.claude/` — and `architecture-skills-vs-agents.md`, why skills stay
+in-context and there's no orchestrator agent) · `roadmap.md` (backlog; doubles as the scope parking lot) ·
 `policy/` (governance canon: `data-governance.md`, `model-governance.md`, `security.md`) ·
 `process/` (live `PROCESS.md` state: `project-definition.md`, `phase-state.md`, `risk-register.md`,
 `scope-ledger.md`, `decision-log.md`)
