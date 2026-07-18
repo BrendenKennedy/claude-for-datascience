@@ -98,7 +98,7 @@ tools: Read, Grep, Glob   # least-privilege — list only what it needs; omit to
   It's the only thing the dispatcher routes on.
 - **Subagents have no Skill tool — wire skills deliberately.** `skills:` in the frontmatter preloads
   full skill content at startup: use it for the 1–2 **always-on** skills the agent's non-negotiables
-  depend on (`ml-engineer` → `training`, `eval-analyst` → `evaluation, datasets`). **Never preload a
+  depend on (`eval-analyst` → `evaluation, datasets`). **Never preload a
   tool-gated skill** — it may be off; the agent instead checks `settings.json` `skillOverrides` and
   Reads the active one's `SKILL.md`. Any "consult skill X" line in an agent body must resolve to one
   of those two mechanics, or it's a dead reference.

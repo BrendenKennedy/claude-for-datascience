@@ -95,6 +95,9 @@ Edit `.claude/settings.json` — set each key to `"on"` or `"off"` from the answ
 | `finetune-unsloth` | LLM fine-tuning = Unsloth |
 | `llm-eval` | LLM fine-tuning = Unsloth (flips with it) |
 | `hpo-optuna` | HPO = Optuna |
+| `annotation` | archetype = computer vision AND the project produces labels |
+| `pipelines` | archetype = computer vision with a multi-stage cascade |
+| `training` | the archetype trains neural networks (CV, deep time-series, custom torch work) |
 | `tabular` | archetype = classical DS on structured data |
 | `timeseries` | archetype = time-series / forecasting |
 | `wrangling` | flips with `tabular` or `timeseries` (the pandas-heavy lanes) |

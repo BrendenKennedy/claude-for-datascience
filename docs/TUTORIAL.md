@@ -43,9 +43,10 @@ checkpoint commit:
 
 Point the agent at your data in plain language — *"here's my dataset at ~/data/widgets, split
 it"* — and watch the skills surface: `datasets` enforces the split-once/group-split/leakage
-rules, `eda` runs the first-look checklist (and files what it finds into the data-quality notes
-and risk register), `annotation` takes over if you're producing labels (spec first, then a
-measured agreement pilot — resist the urge to skip it).
+rules for every archetype, `eda` runs the first-look checklist (and files what it finds into
+the data-quality notes and risk register), and your lane's skills carry the specifics —
+`annotation` if you're producing CV labels (spec first, then a measured agreement pilot),
+`tabular`/`timeseries`/`sql` in theirs.
 
 Quick questions need no ceremony: *"plot the class balance"* is served directly — gates govern
 project work, not curiosity.

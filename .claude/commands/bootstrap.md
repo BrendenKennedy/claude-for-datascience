@@ -3,7 +3,9 @@ description: One-time project bootstrap — generate the conf/ tree and the trai
 disable-model-invocation: true
 ---
 
-Create the project skeleton this scaffold's skills already describe. `/intake` picks the **stack**; this
+Create the project skeleton this scaffold's skills already describe. (The generator currently
+emits the deep-learning/Hydra shape — other archetype skeletons are a roadmap item; for tabular/
+timeseries projects, generate the entry points by hand from those skills' conventions.) `/intake` picks the **stack**; this
 picks the **shape**. Until it runs, `config-hydra` documents a `conf/` tree that doesn't exist, `training`
 documents a `train.py` that doesn't exist, and "config over constants" governs nothing.
 

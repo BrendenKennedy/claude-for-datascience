@@ -1,20 +1,20 @@
 ---
 name: datasets
 description: >
-  Defining and handling a CV dataset — the split discipline, label formats, layout, and provenance
-  everything downstream depends on. Carries the rules that bite: split ONCE with a fixed seed and no
-  leakage (group/subject/temporal split when samples share a source), label formats (COCO JSON, YOLO
-  txt, Pascal VOC XML) + the conversion traps, on-disk layout + provenance manifest
-  (source/license/version), one-class anomaly-detection layout (normal-only fit set), deterministic
-  preprocessing vs random augmentation, and stats computed on train only. Load before making a
-  split, adding or converting annotations, computing class balance or normalization stats, or wiring
-  a new dataset in. Triggers: dataset, split, train/val/test, holdout, leakage, group split,
-  temporal split, stratify, class imbalance, COCO, YOLO, Pascal VOC, bounding box, label format,
-  convert annotations, manifest, normalization stats, mean std, augmentation, eval set, don't touch
-  test.
+  Defining and handling a dataset — the split discipline, layout, and provenance everything
+  downstream depends on (universal across archetypes), plus the CV lane's label formats. Carries the
+  rules that bite: split ONCE with a fixed seed and no leakage (group/subject/temporal split when
+  samples share a source), the provenance manifest (source/license/version), deterministic
+  preprocessing vs random augmentation, stats computed on train only — and for CV work: label
+  formats (COCO JSON, YOLO txt, Pascal VOC XML) + the conversion traps, on-disk image layout, one-
+  class anomaly-detection layout (normal-only fit set). Load before making a split, adding or
+  converting annotations, computing class balance or normalization stats, or wiring a new dataset
+  in. Triggers: dataset, split, train/val/test, holdout, leakage, group split, temporal split,
+  stratify, class imbalance, COCO, YOLO, Pascal VOC, bounding box, label format, convert
+  annotations, manifest, normalization stats, mean std, augmentation, eval set, don't touch test.
 ---
 
-# datasets — defining and handling a CV dataset
+# datasets — split discipline, provenance, and (for CV) label formats
 
 > On-demand: load this before you make a split, add/convert annotations, compute dataset stats, or wire a
 > new dataset in. It carries the discipline that keeps results honest — split once, respect it everywhere,

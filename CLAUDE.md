@@ -4,7 +4,8 @@ The map of the Claude configuration here: what lives under `.claude/` and when t
 Depth deliberately lives in the skills/docs this points to — skills auto-surface by description;
 this file is for the always-on conventions and registration. Project details: the skills + `README.md`.
 
-> **claude-for-datascience**, tuned for CV & data-science work. One-time setup, in order: **`/intake`**
+> **claude-for-datascience** — a data-science scaffold; archetypes (CV · tabular · time-series ·
+> LLM · …) are lanes, flipped by what you're building. One-time setup, in order: **`/intake`**
 > (the "what are we building?" interview → `memory/process/project-definition.md`, then the stack →
 > `settings.json` `skillOverrides` + placeholders), then **`/bootstrap`** (builds the `conf/` tree +
 > `train.py`/`eval.py` the skills assume — without it the skills document a project that doesn't
@@ -32,12 +33,13 @@ The rules that apply to essentially every change (fuller policy via the `governa
 Auto-surface by description (that text is the entire routing surface — see
 `memory/reference/authoring-extensions.md` before adding one). Two tiers:
 - **Always-on chassis:** `process` · `governance` · `testing` · `memory` · `wave-planning`
-- **Always-on workflow (CV/DS):** `datasets` · `eda` · `annotation` · `training` · `evaluation` ·
-  `statistics` · `visualization` · `pipelines` · `notebooks` · `reporting`
+- **Always-on workflow (DS core, archetype-agnostic):** `datasets` · `eda` · `evaluation` ·
+  `statistics` · `visualization` · `notebooks` · `reporting`
 - **Gated** (`/intake` flips via `skillOverrides` — **tool** skills by stack choice, **lane**
   skills by archetype; all off unless flipped): tools — `env-uv` (on) · `tracking-mlflow` (on) ·
   `config-hydra` (on) · `data-dvc` (on) · `tracking-wandb` · `config-omegaconf` · `hpo-optuna`;
-  lanes — `tabular` · `timeseries` · `wrangling` · `sql` · `data-acquisition` ·
+  lanes — cv: `annotation` · `pipelines` · `training` (flips for any neural-training archetype);
+  `tabular` · `timeseries` · `wrangling` · `sql` · `data-acquisition` ·
   `finetune-unsloth` · `llm-eval` · `serving` · `monitoring` (those two flip at deploy) ·
   `infra-aws` (S3+Redshift via a least-privilege IAM role — starter policy in
   `.claude/templates/`) · `containers` (Docker/Compose; k8s deliberately parked) ·

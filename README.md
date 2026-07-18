@@ -24,9 +24,10 @@ The project itself advances through **gated phases** — `/gate` reviews evidenc
 broken are **hooks**, not prose: a session cannot end while a data-leakage test fails. Decisions
 persist in a **memory** directory instead of evaporating with the context window.
 
-> **Default lane:** PyTorch CV on an NVIDIA GPU (local or over SSH), `uv` for environments,
-> MLflow · Hydra · DVC as the stack. `/intake` swaps the stack and flips on other lanes
-> (tabular · time-series · LLM fine-tune/eval · SQL · serving) by asking what you're building.
+> **Stack defaults:** `uv` for environments, MLflow · Hydra · DVC — swappable at `/intake`.
+> **Archetypes are lanes** — CV, tabular, time-series, LLM fine-tune/eval, SQL, serving — flipped
+> by what you're building; none is privileged. (One honest caveat: `/bootstrap`'s generated
+> skeleton is currently the deep-learning shape; other archetype skeletons are on the roadmap.)
 
 ## Quick start
 
@@ -90,12 +91,13 @@ flowchart LR
 │                             #   · eval-analyst · data-engineer · _TEMPLATE
 ├── skills/
 │   ├── (chassis)             # process · governance · memory · testing · wave-planning
-│   ├── (CV/DS domain)        # datasets · eda · annotation · training · evaluation · statistics
-│   │                         #   · visualization · pipelines · notebooks · reporting
+│   ├── (DS core, always-on)  # datasets · eda · evaluation · statistics · visualization
+│   │                         #   · notebooks · reporting
 │   ├── (tool, /intake-gated) # env-uv · tracking-mlflow · tracking-wandb · config-hydra
 │   │                         #   · config-omegaconf · data-dvc · hpo-optuna — version-pinned;
 │   │                         #     /skill-update syncs them to the installed dep
-│   ├── (lane, /intake-gated) # tabular · timeseries · wrangling · sql · data-acquisition
+│   ├── (lane, /intake-gated) # cv (annotation · pipelines · training) · tabular · timeseries
+│   │                         #   · wrangling · sql · data-acquisition
 │   │                         #   · finetune-unsloth · llm-eval · serving · monitoring
 │   │                         #   · infra-aws (least-privilege IAM role) · containers (Docker/Compose)
 │   │                         #   · local-stack (offline twins: MinIO · CVAT · Postgres+extensions)

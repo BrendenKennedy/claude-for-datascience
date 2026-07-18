@@ -18,21 +18,19 @@
 
 | Skill | What it carries |
 |---|---|
-| [`annotation`](../.claude/skills/annotation/SKILL.md) | Producing labels — annotation ops for CV, the spec-first loop: spec → pilot → agreement → produce → audit → drift-check. |
-| [`datasets`](../.claude/skills/datasets/SKILL.md) | Defining and handling a CV dataset — the split discipline, label formats, layout, and provenance everything downstream depends on. |
+| [`datasets`](../.claude/skills/datasets/SKILL.md) | Defining and handling a dataset — the split discipline, layout, and provenance everything downstream depends on (universal across archetypes), plus the CV lane's label… |
 | [`eda`](../.claude/skills/eda/SKILL.md) | Exploratory data analysis with discipline — understand the data before modeling it, without spending the test set. |
 | [`evaluation`](../.claude/skills/evaluation/SKILL.md) | Measuring a model — the metric that matches the task, a deterministic eval script separate from training, run comparison via the tracker, and error analysis instead of… |
 | [`notebooks`](../.claude/skills/notebooks/SKILL.md) | Jupyter in this repo — thin, exploratory, reproducible; logic lives in importable modules under `src/`, notebooks import, they don't define. |
-| [`pipelines`](../.claude/skills/pipelines/SKILL.md) | Multi-stage CV cascades — one model's output feeding the next (detect/segment the part, then judge the crop). |
 | [`reporting`](../.claude/skills/reporting/SKILL.md) | Turning finished work into deliverables — technical reports, white papers, stakeholder summaries, model cards — grounded in the repo's own records. |
 | [`statistics`](../.claude/skills/statistics/SKILL.md) | The statistical honesty layer — uncertainty on every reported number and comparisons that mean something. |
-| [`training`](../.claude/skills/training/SKILL.md) | The train / fine-tune loop conventions — every run reproducible, resumable, tracked. |
 | [`visualization`](../.claude/skills/visualization/SKILL.md) | Charts that inform instead of mislead — for EDA, training diagnostics, and deliverables. |
 
 ## Skills — gated (flipped by `/intake` via `skillOverrides`)
 
 | Skill | Kind | Default | What it carries |
 |---|---|---|---|
+| [`annotation`](../.claude/skills/annotation/SKILL.md) | lane | off | Producing labels — annotation ops for CV, the spec-first loop: spec → pilot → agreement → produce → audit → drift-check. |
 | [`config-hydra`](../.claude/skills/config-hydra/SKILL.md) | tool | on | Run configuration with Hydra (on OmegaConf) — the `conf/` tree of config groups, `@hydra.main`, the defaults list, CLI overrides, and multirun sweeps. |
 | [`config-omegaconf`](../.claude/skills/config-omegaconf/SKILL.md) | tool | off | Run configuration with plain OmegaConf (no Hydra) — YAML files merged with CLI dotlist overrides, by hand but leakage-free. |
 | [`containers`](../.claude/skills/containers/SKILL.md) | lane | off | Docker + Compose for DS — reproducible images and the local support services pipelines need. |
@@ -45,12 +43,14 @@
 | [`llm-eval`](../.claude/skills/llm-eval/SKILL.md) | lane | off | Evaluating LLMs and fine-tunes — task metrics over loss, decontaminated held-out sets, benchmark harnesses, and judge discipline. |
 | [`local-stack`](../.claude/skills/local-stack/SKILL.md) | lane | off | The self-hosted local DS stack — offline/air-gapped twins of the cloud pieces, run via Compose. |
 | [`monitoring`](../.claude/skills/monitoring/SKILL.md) | lane | off | Production model monitoring — PROCESS.md P7 made concrete: a deployed model degrades by default; this makes it visible and actionable. |
+| [`pipelines`](../.claude/skills/pipelines/SKILL.md) | lane | off | Multi-stage CV cascades — one model's output feeding the next (detect/segment the part, then judge the crop). |
 | [`serving`](../.claude/skills/serving/SKILL.md) | lane | off | Shipping a model — batch scoring jobs and online endpoints. |
 | [`sql`](../.claude/skills/sql/SKILL.md) | lane | off | Working against a SQL database or warehouse — query-for-features discipline. |
 | [`tabular`](../.claude/skills/tabular/SKILL.md) | lane | off | Classical DS on structured/tabular data — the sklearn-lane discipline. |
 | [`timeseries`](../.claude/skills/timeseries/SKILL.md) | lane | off | Time-series / forecasting discipline — where random splits and vanilla metrics lie hardest. |
 | [`tracking-mlflow`](../.claude/skills/tracking-mlflow/SKILL.md) | tool | on | Recording experiments with MLflow — every train/eval run becomes a tracked, comparable, reproducible record. |
 | [`tracking-wandb`](../.claude/skills/tracking-wandb/SKILL.md) | tool | off | Recording experiments with Weights & Biases — every train/eval run becomes a tracked, comparable, reproducible record. |
+| [`training`](../.claude/skills/training/SKILL.md) | lane | off | The train / fine-tune loop conventions — every run reproducible, resumable, tracked. |
 | [`wrangling`](../.claude/skills/wrangling/SKILL.md) | lane | off | Pandas data manipulation without silent corruption. |
 
 ## Commands
@@ -72,9 +72,9 @@
 | Agent | Does | Tools | Preloaded skills |
 |---|---|---|---|
 | [`code-reviewer`](../.claude/agents/code-reviewer.md) | Reviews code changes for correctness and quality, with an ML/CV lens (device/dtype mismatches, tensor-shape/broadcasting bugs, data leakage, non-determinism,… | Bash, Read, Grep, Glob | — |
-| [`data-engineer`](../.claude/agents/data-engineer.md) | Builds the CV data layer — dataset ingestion, label wrangling, format conversion, splits, dataloaders, augmentation, data-quality checks, and annotation-ops tooling… | Read, Grep, Glob, Edit, Write, Bash | datasets |
+| [`data-engineer`](../.claude/agents/data-engineer.md) | Builds the data layer — dataset ingestion, label wrangling, format conversion, splits, dataloaders, augmentation, data-quality checks, and annotation-ops tooling (IAA… | Read, Grep, Glob, Edit, Write, Bash | datasets |
 | [`eval-analyst`](../.claude/agents/eval-analyst.md) | Designs eval harnesses and turns metrics into findings for THIS project — error analysis, per- class and per-slice breakdowns, failure-mode identification, and run… | Read, Grep, Glob, Bash | evaluation, datasets |
-| [`ml-engineer`](../.claude/agents/ml-engineer.md) | Builds and refactors models and train/eval loops — architectures, losses, optimizers, LR schedulers, checkpointing, mixed precision, dataloaders. | Read, Grep, Glob, Edit, Write, Bash | training |
+| [`ml-engineer`](../.claude/agents/ml-engineer.md) | Builds and refactors models and train/eval loops — architectures, losses, optimizers, LR schedulers, checkpointing, mixed precision, dataloaders. | Read, Grep, Glob, Edit, Write, Bash | — |
 | [`software-architect`](../.claude/agents/software-architect.md) | Designs implementation plans and weighs architectural trade-offs for THIS project, pre-loaded with its core principles. | Read, Grep, Glob, Bash | — |
 
 ## Hooks (wired in `settings.json`)

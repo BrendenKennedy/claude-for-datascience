@@ -8,6 +8,18 @@ versions follow [SemVer](https://semver.org/) per the stability contract in
 
 ## [Unreleased]
 
+### Changed
+- **CV is now a lane, not the default identity.** The scaffold is a *data-science* scaffold;
+  archetypes (CV · tabular · time-series · LLM · …) are peer lanes flipped by `/intake`. The
+  CV-specific skills (`annotation`, `pipelines`, `training` — the last flips for any
+  neural-training archetype) moved from always-on to lane-gated; the always-on workflow tier is
+  now the archetype-agnostic DS core (`datasets`, `eda`, `evaluation`, `statistics`,
+  `visualization`, `notebooks`, `reporting`). `datasets` reframed: universal split/provenance
+  discipline headline, CV formats as its CV section. Agents follow (`data-engineer`
+  generalized; `ml-engineer` no longer preloads the now-gated `training` — reads it per
+  `skillOverrides`). README/CLAUDE.md/tutorial identity surfaces updated; `/bootstrap` honestly
+  notes its generated skeleton is currently the deep-learning shape.
+
 ### Added
 - **`docs/TUTORIAL.md`** — the hands-on first-project walkthrough (~30 min, runs on synthetic
   data): install → `/setup`'s four stages → bringing data → the daily rhythm (expect your first
