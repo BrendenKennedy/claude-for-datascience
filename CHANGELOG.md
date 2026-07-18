@@ -4,6 +4,32 @@ All notable changes to claude-for-datascience. Format follows [Keep a Changelog]
 versions follow [SemVer](https://semver.org/). Installed projects can compare their
 `.claude/scaffold-version` stamp against these entries to see what they're missing.
 
+## [0.7.0] — 2026-07-18
+
+The end-to-end pass: audited against what commercial DS agents (NL-to-SQL, warehouse work,
+ad-hoc file analysis) and autonomous-ML benchmarks cover. Four new lane skills close the
+acquisition and shipping ends of the lifecycle, and the process gains an ad-hoc exemption so
+quick analysis never meets gate ceremony.
+
+### Added
+- **`sql`** (lane) — query-for-features discipline: push compute down, leakage-safe window
+  frames (`1 PRECEDING`), join-grain checks, parametrized queries, snapshot what training eats.
+- **`data-acquisition`** (lane) — cache-first raw layer, rate-limit budget math before pulling,
+  backoff with jitter, incremental sync, boundary schema validation, ToS/robots as governance.
+- **`serving`** (lane, flips at deploy) — batch-first bias, load-once-from-registry-alias
+  endpoint shape, training-serving skew prevention, export parity checks, prediction logging as
+  the `monitoring` precondition.
+- **`wrangling`** (lane) — pandas without silent corruption: `validate=` on every merge +
+  grain assertions, tz-aware UTC at the boundary, dtype traps, vectorization,
+  order-is-not-a-contract.
+
+### Changed
+- **Ad-hoc mode:** the `process` skill (and CLAUDE.md) now state that gates govern *project*
+  work — "plot this CSV" is served directly with no phase ceremony, entering the process only
+  when it starts informing project decisions.
+- **`evaluation`:** fairness slices are required, not optional, when predictions affect people;
+  gaps go in the model card, and slice findings pass multiple-comparisons discipline.
+
 ## [0.6.0] — 2026-07-18
 
 The communication pass: the workflow arc now runs end to end — understand the data before

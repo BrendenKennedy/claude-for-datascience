@@ -14,10 +14,13 @@ written gate + a decision-log line.
 
 ## Someday / maybe
 - Multi-archetype `/bootstrap` skeletons (tabular/timeseries/LLM entry points — the skills now exist; the skeleton is still Hydra+CV-shaped)
-- Serving/deployment skill (FastAPI/ONNX/TensorRT) and data-validation skill (pandera) — when demand shows
+- Causal inference skill (observational methods beyond A/B — DoWhy/propensity) — when demand shows
+- Big-data escalation skills (polars/duckdb/spark) and cloud-platform lanes (SageMaker/Vertex) — when demand shows
+- Data-validation tool skill (pandera/great-expectations)
 - Stop-hook gate-debt warning (stricter §3.8 enforcement)
 
 ## Done (recent)
+- Release v0.7.0: end-to-end pass (sql, data-acquisition, serving, wrangling lanes; ad-hoc mode; fairness slices) — 2026-07-18
 - Release v0.6.0: communication layer (eda, visualization, statistics, reporting + /report) — 2026-07-18
 - Release v0.5.0: lane skills (tabular, timeseries, monitoring) + config-omegaconf — 2026-07-18
 - Release v0.4.0 (process framework, efficiency pass, agent audit, versioned tool skills,
