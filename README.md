@@ -86,7 +86,8 @@ flowchart LR
 │   ├── (tool, /intake-gated) # env-uv · tracking-mlflow · tracking-wandb · config-hydra
 │   │                         #   · config-omegaconf · data-dvc · hpo-optuna — version-pinned;
 │   │                         #     /skill-update syncs them to the installed dep
-│   ├── (lane, /intake-gated) # tabular · timeseries · finetune-unsloth · llm-eval · monitoring
+│   ├── (lane, /intake-gated) # tabular · timeseries · wrangling · sql · data-acquisition
+│   │                         #   · finetune-unsloth · llm-eval · serving · monitoring
 │   │                         #   — flipped by project archetype, so a CV user never pays for them
 │   └── _example/             # how to write a skill
 ├── commands/                 # setup · intake · bootstrap · gate · skill-update · report · review

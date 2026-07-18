@@ -45,15 +45,24 @@ description: >
 5. **After shipping (P6):** the retro edits `PROCESS.md` itself and bumps its version — the process
    is a versioned artifact (Part V).
 
+## Projects gate; ad-hoc asks don't
+The loop above governs the **project thread**. A one-off analytical ask — "plot this CSV", "is
+there a correlation here", "summarize this table" — is served directly: `eda`/`visualization`/
+`statistics` still apply (they're about honesty, not ceremony), but no phase check, no gate, no
+records beyond the conversation. The boundary: the moment ad-hoc work starts informing the
+project's modeling decisions or produces artifacts the project will reuse, it enters the process
+(findings recorded, splits respected). Unsure which mode the user is in? Ask — never
+bureaucratize a quick question.
+
 ## Phase → skill map (who carries the "how" of each phase)
 | Phase | Lean on |
 |---|---|
 | P1 Problem definition | `/intake` step 0 runs this interview → `project-definition.md` (most of the P1 gate evidence); `evaluation` for metric choice; `governance` for the decision log |
-| P2 Data discovery | `eda` (the first-look audit), `datasets` (provenance, formats), `annotation` (when producing labels), `data-dvc`, `governance` → `data-governance` (licensing/PII) |
+| P2 Data discovery | `eda` (the first-look audit), `data-acquisition` (APIs/scraping ingest), `datasets` (provenance, formats), `annotation` (when producing labels), `data-dvc`, `governance` → `data-governance` (licensing/PII) |
 | P3 Data architecture | `datasets` (layout, manifest), `data-dvc` (versioning), `env-uv` (pinned env); the *shape* comes from `/bootstrap`, not P3's generic diagram |
-| P4 Features / input representation | `datasets` (preprocessing vs augmentation, stats-on-train-only), `config-hydra` (choices flow through config) |
+| P4 Features / input representation | `datasets` (preprocessing vs augmentation, stats-on-train-only), `sql` (leakage-safe feature queries) + `wrangling` (dataframe work) when in those lanes, `config-hydra` (choices flow through config) |
 | P5 Modeling & evaluation | `training`, `evaluation`, `statistics` (is the difference real), the tracker (the experiment log **is** the tracker), `pipelines` for cascades, `testing` before claiming anything works |
-| P6 Delivery & retro | `reporting` + `/report` (the deliverable, evidence-cited), `visualization` (its figures), `testing` (clean rerun), `memory` (`/wrapup`), retro edits `PROCESS.md` |
+| P6 Delivery & retro | `reporting` + `/report` (the deliverable, evidence-cited), `visualization` (its figures), `serving` (if it ships as a scorer/endpoint), `testing` (clean rerun), `memory` (`/wrapup`), retro edits `PROCESS.md` |
 | P7 Monitoring | `monitoring` (flip it on in `skillOverrides` at first deploy — drift, reference windows, retrain triggers), `evaluation`, the tracker + registry |
 
 ## Who runs this — deliberately NO project-manager agent

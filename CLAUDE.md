@@ -15,7 +15,8 @@ The rules that apply to essentially every change (fuller policy via the `governa
 `.claude/memory/policy/`):
 - **Work advances through phase gates** — the project runs on `PROCESS.md` (repo root); no forward
   phase transition without a passed `/gate` review recorded in `memory/process/phase-state.md`.
-  The operating loop is the `process` skill.
+  The operating loop is the `process` skill. Governs **project work** — one-off ad-hoc analysis
+  asks are served directly, no gate ceremony.
 - **Match the surrounding code** — mirror its structure, naming, and comment density.
 - **Reproducibility is non-negotiable** — seed every RNG, pin versions, never let an experiment
   depend on un-recorded state; document any deliberate nondeterminism.
@@ -36,9 +37,10 @@ Auto-surface by description (that text is the entire routing surface — see
 - **Gated** (`/intake` flips via `skillOverrides` — **tool** skills by stack choice, **lane**
   skills by archetype; all off unless flipped): tools — `env-uv` (on) · `tracking-mlflow` (on) ·
   `config-hydra` (on) · `data-dvc` (on) · `tracking-wandb` · `config-omegaconf` · `hpo-optuna`;
-  lanes — `tabular` · `timeseries` · `finetune-unsloth` · `llm-eval` · `monitoring` (flips at
-  first deploy). Tool skills carry a `**Pinned:**` version line — `/skill-update` keeps the facts
-  true for the version the project actually runs.
+  lanes — `tabular` · `timeseries` · `wrangling` · `sql` · `data-acquisition` ·
+  `finetune-unsloth` · `llm-eval` · `serving` · `monitoring` (the last two flip at deploy).
+  Tool skills carry a `**Pinned:**` version line — `/skill-update` keeps the facts true for the
+  version the project actually runs.
 
 ## Subagents — `.claude/agents/<name>.md`
 `code-reviewer` (diff review, ML lens) · `software-architect` (read-only planning, project

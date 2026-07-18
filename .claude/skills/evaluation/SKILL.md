@@ -88,6 +88,11 @@ A single number says *whether* it's good, never *where* it fails. Always pair it
   dragging the mean down.
 - **Data slices:** break metrics out by meaningful subgroups (lighting, resolution, source/camera,
   object size, demographic) — a strong global score routinely hides a slice that's near-random.
+- **Fairness slices are required, not optional, when predictions affect people:** per-group
+  performance on the sensitive attributes the deployment context names. Gaps found are reported in
+  the model card and limitations (`model-governance`, `reporting`) — not quietly averaged away —
+  and slice findings still pass the multiple-comparisons discipline (`statistics`) before being
+  treated as real.
 - **Qualitative viz:** render predictions on inputs — overlay boxes/masks with GT, plot the confusion
   matrix and PR/reliability curves — and log the panels to MLflow. Hand this to the `eval-analyst` agent
   to turn into findings.

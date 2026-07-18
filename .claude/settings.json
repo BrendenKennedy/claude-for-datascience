@@ -43,7 +43,11 @@
     "hpo-optuna": "off",
     "tabular": "off",
     "timeseries": "off",
-    "monitoring": "off"
+    "monitoring": "off",
+    "sql": "off",
+    "data-acquisition": "off",
+    "wrangling": "off",
+    "serving": "off"
   },
   "hooks": {
     "PreToolUse": [

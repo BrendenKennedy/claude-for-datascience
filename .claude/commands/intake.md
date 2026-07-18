@@ -94,6 +94,10 @@ Edit `.claude/settings.json` — set each key to `"on"` or `"off"` from the answ
 | `hpo-optuna` | HPO = Optuna |
 | `tabular` | archetype = classical DS on structured data |
 | `timeseries` | archetype = time-series / forecasting |
+| `wrangling` | flips with `tabular` or `timeseries` (the pandas-heavy lanes) |
+| `sql` | the definition doc says data lives in a database / warehouse |
+| `data-acquisition` | the definition doc says data is pulled from APIs or scraped |
+| `serving` | the project ships a scorer/endpoint — usually flipped at P6, not at intake |
 | `monitoring` | the project is deploying — usually flipped later, at P7, not at intake |
 
 Exactly one tracker key and one config key should be `on`; the unchosen siblings go `off`. If the tracker
