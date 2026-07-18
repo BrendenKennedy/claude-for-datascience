@@ -4,6 +4,53 @@ All notable changes to claude-for-datascience. Format follows [Keep a Changelog]
 versions follow [SemVer](https://semver.org/). Installed projects can compare their
 `.claude/scaffold-version` stamp against these entries to see what they're missing.
 
+## [0.4.0] — 2026-07-18
+
+The process-and-professionalism pass: the scaffold now runs on a phase-gate project framework
+(`PROCESS.md`) with mechanical enforcement, tool skills are version-pinned with a maintenance
+command, agents actually receive the skills their non-negotiables depend on, and the always-on
+context cost was measured and roughly halved.
+
+### Added
+- **`PROCESS.md` (v0.2.0)** — hybrid project framework (CRISP-DM spine + TDSP roles/artifacts +
+  CRISP-ML(Q) QA/monitoring + MLOps reproducibility + Lean kill criteria), amended with the gaps
+  the sources miss: labeling/IAA gates, compute budgeting, and gate enforcement by structure
+  (§3.8). Registered as the `process` governance domain; live state in `.claude/memory/process/`
+  (project-definition, phase-state, risk-register, scope-ledger, decision-log).
+- **`process` skill** (chassis) — the phase-gate operating loop + phase→skill map; deliberately no
+  project-manager agent (gates need the user in the loop).
+- **`annotation` skill** (workflow) — producing labels: spec-first loop, inter-annotator agreement
+  (κ / IoU-matched), gold sets, label-error audits, pre-labeling circularity rules.
+- **`/gate`** — evidence-based phase-gate review; records PASS or named gate debt in
+  `phase-state.md`; refuses to advance on unchecked items.
+- **`/setup`** — one-session orchestrator: git preflight → `/intake` → `/bootstrap` → `/gate` (P1)
+  → `/wrapup`, checkpoint commit per stage.
+- **`/intake` step 0** — the "what are we building?" project-definition interview: archetype +
+  honest lane-fit, T1 problem statement, anti-pattern challenge pass (researches best practice
+  before opining); writes `project-definition.md`, which pre-answers `/intake`/`/bootstrap` and
+  doubles as P1 gate evidence.
+- **Version-pinned tool skills + `/skill-update`** — every tool skill carries a `**Pinned:**` line
+  tracking the locked dependency; `/skill-update` does drift checks, changelog research over the
+  exact delta, empirical verification, and the pin bump. Git history is the archive of older skill
+  versions.
+- **New tool skills (gated, off):** `finetune-unsloth` (QLoRA/LoRA via Unsloth + TRL),
+  `llm-eval` (harnesses, judge discipline, golden-prompt regressions — flips with unsloth),
+  `hpo-optuna` (leakage-safe hyperparameter search). `tracking-mlflow` gains a Model Registry
+  section (aliases over stages, promotion as a governed act).
+
+### Changed
+- **Context-efficiency pass** — all skill descriptions rewritten front-loaded (−31%; two exceeded
+  the 1,536-char listing truncation cap and were silently losing their trigger words), CLAUDE.md
+  cut 53%, `disable-model-invocation: true` on one-time commands and templates. Net always-on
+  overhead ≈ halved. Budget rules documented in `authoring-extensions.md`.
+- **Agent audit** — subagents have no Skill tool, so load-bearing always-on skills are now
+  preloaded via frontmatter (`data-engineer` → datasets; `ml-engineer` → training;
+  `eval-analyst` → evaluation+datasets); tool-gated skills are read on demand per
+  `skillOverrides`. `ml-engineer` is tracker-agnostic; `code-reviewer` checks decision logs
+  before flagging recorded choices; `software-architect` plans inside the scope-ledger contract;
+  `eval-analyst` output is citable P5-gate evidence.
+- `/wrapup` records the current phase + gate debt in every session note.
+
 ## [0.3.0] — 2026-07-15
 
 The security pass: the threat model is now stated instead of implied, secrets have enforcement on
