@@ -4,6 +4,32 @@ All notable changes to claude-for-datascience. Format follows [Keep a Changelog]
 versions follow [SemVer](https://semver.org/). Installed projects can compare their
 `.claude/scaffold-version` stamp against these entries to see what they're missing.
 
+## [0.5.0] — 2026-07-18
+
+The comprehensiveness pass: the scaffold now serves the general-DS archetypes, not just CV.
+Introduces **lane skills** — workflow skills gated by project archetype through the same
+`skillOverrides` mechanism as tool skills, so users only pay context for the lanes they work in.
+
+### Added
+- **`tabular`** (lane, off) — sklearn-lane discipline: all preprocessing inside
+  `Pipeline`/`ColumnTransformer` so CV can't leak, the Dummy→linear→boosting ladder,
+  GroupKFold for entity-grouped rows, target-encoding and feature-importance traps,
+  calibration, pipeline+model persisted as one artifact.
+- **`timeseries`** (lane, off) — forecasting discipline: temporal-only splits with
+  rolling-origin backtesting and embargo gaps, causal lag features, naive/seasonal-naive
+  baselines as gates, MASE/sMAPE/pinball metrics, horizon as a P1 contract item.
+- **`monitoring`** (lane, off — flip at first deploy) — PROCESS.md P7 made concrete:
+  prediction logging, PSI/KS + embedding drift, the delayed-ground-truth loop,
+  reference-window alert thresholds, retrain triggers, shadow eval before registry promotion.
+- **`config-omegaconf`** (tool, off) — plain-OmegaConf composition without Hydra: schema-first
+  merge, dotlist CLI overrides, `MISSING`, resolve-and-log. Closes `/intake`'s
+  "no skill backs this choice" warning.
+
+### Changed
+- `/intake`: lane skills flip from the step-0 archetype with no extra questions; the plain-
+  OmegaConf option is now fully backed (the Hydra-shaped-skeleton caveat remains).
+- `settings.json` `skillOverrides` + CLAUDE.md/README document the tool-vs-lane distinction.
+
 ## [0.4.0] — 2026-07-18
 
 The process-and-professionalism pass: the scaffold now runs on a phase-gate project framework

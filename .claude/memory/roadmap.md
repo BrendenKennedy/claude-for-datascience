@@ -6,19 +6,19 @@ Doubles as the scope **parking lot** (PROCESS.md §3.3): promotion into the v1 c
 written gate + a decision-log line.
 
 ## Now / in progress
-- Skill coverage, remaining: monitoring/observability skill (deferred until first deploy — P7
-  covers concepts), tabular/classical-DS workflow skill (add if the archetype gets used)
+- (nothing active — the next real project run through `/setup` drives the backlog)
 
 ## Next
 - Run `/doctor` to confirm the skill-listing budget post-rewrite
 - Watch skill surfacing after the description rewrite; sharpen under-triggering descriptions
 
 ## Someday / maybe
-- Multi-archetype `/bootstrap` skeletons (agent builds, tabular) — hook point exists in `/intake` step 0 lane-fit
-- `config-omegaconf` skill (fast-follow noted in `/intake`)
+- Multi-archetype `/bootstrap` skeletons (tabular/timeseries/LLM entry points — the skills now exist; the skeleton is still Hydra+CV-shaped)
+- Serving/deployment skill (FastAPI/ONNX/TensorRT) and data-validation skill (pandera) — when demand shows
 - Stop-hook gate-debt warning (stricter §3.8 enforcement)
 
 ## Done (recent)
+- Release v0.5.0: lane skills (tabular, timeseries, monitoring) + config-omegaconf — 2026-07-18
 - Release v0.4.0 (process framework, efficiency pass, agent audit, versioned tool skills,
   llm-eval + hpo-optuna) — 2026-07-18
 - `finetune-unsloth` (tool-gated) + MLflow Model Registry section + version pins on all tool
