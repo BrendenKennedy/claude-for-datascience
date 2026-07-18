@@ -4,42 +4,29 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/BrendenKennedy/claude-for-datascience)](https://github.com/BrendenKennedy/claude-for-datascience/releases)
 
-An opinionated [Claude Code](https://claude.com/claude-code) configuration for data-science
-projects, end to end: problem definition → data acquisition → EDA → labeling → training →
-evaluation → reporting → serving → monitoring, run on a **phase-gate project framework**
-([`PROCESS.md`](PROCESS.md)) with skills, subagents, hooks, and cross-session memory doing the work.
+A drop-in [Claude Code](https://claude.com/claude-code) configuration that turns a coding agent
+into a disciplined data-science collaborator. Four ideas:
 
-**Why.** Out of the box, a coding agent knows nothing about how ML projects go wrong: it will write
-an unseeded training run, tune a threshold on the test set, hardcode a dataset path, and forget all
-of it by the next session. Teaching it your conventions is possible — Claude Code reads project
-config from `.claude/` — but authoring that config is its own project. This repo is that project,
-done.
-
-**How.** `CLAUDE.md` is deliberately an *index*, not an instruction manual — a one-page map that
-loads every session and points at the substance. Domain knowledge lives in 30+ **skills** that load
-on demand and only when relevant: the dataset-splitting skill surfaces when you're splitting data,
-and whole *lanes* (tabular, time-series, LLM fine-tuning) stay off unless your project is in them.
-The project itself advances through **gated phases** — `/gate` reviews evidence, not vibes, and
-`/report` drafts deliverables whose every number traces to a tracked run. Rules that must not be
-broken are **hooks**, not prose: a session cannot end while a data-leakage test fails. Decisions
-persist in a **memory** directory instead of evaporating with the context window.
-
-> **Stack defaults:** `uv` for environments, MLflow · Hydra · DVC — swappable at `/intake`.
-> **Archetypes are lanes** — CV, tabular, time-series, LLM fine-tune/eval, SQL, serving — flipped
-> by what you're building; none is privileged. (One honest caveat: `/bootstrap`'s generated
-> skeleton is currently the deep-learning shape; other archetype skeletons are on the roadmap.)
+- **Process** — projects run on [`PROCESS.md`](PROCESS.md): phases with written exit gates.
+  `/gate` reviews evidence and refuses to advance on unchecked items; ad-hoc questions
+  ("plot this CSV") skip the ceremony entirely.
+- **Knowledge** — 34 skills load on demand, never all at once. Archetypes (CV · tabular ·
+  time-series · LLM · …) are *lanes* you flip on, so you never pay context for someone
+  else's domain.
+- **Enforcement** — rules that must hold are hooks and permissions, not prose: leakage tests
+  gate session end, secrets can't be written, deps go through `uv`, destructive commands get a
+  confirm dialog.
+- **Memory** — decisions, phase state, risks, and session notes persist in-repo, and every
+  number in a `/report` traces to a tracked run.
 
 ## Quick start
 
 Prerequisites: [Claude Code](https://claude.com/claude-code), `git`, `bash`, [`uv`](https://docs.astral.sh/uv/).
 
 ```bash
-# 1. Get the scaffold (once; reuse for every project)
 git clone https://github.com/BrendenKennedy/claude-for-datascience.git ~/dev/claude-for-datascience
-
-# 2. Install into your project (never overwrites existing files; safe to re-run)
 cd ~/path/to/my-project
-~/dev/claude-for-datascience/install.sh .
+~/dev/claude-for-datascience/install.sh .   # never overwrites; safe to re-run
 ```
 
 Then, inside Claude Code:
@@ -51,12 +38,31 @@ Then, inside Claude Code:
 /gate        #   reviews the P1 exit gate against the definition doc
 ```
 
-Or skip the clone: this is a GitHub template — hit **"Use this template"** to start a new project
-from it directly.
+Or hit **"Use this template"** on GitHub to start a repo from it directly.
 
-**New here?** [docs/TUTORIAL.md](docs/TUTORIAL.md) walks the first project end to end (~30 min,
-runs on synthetic data — no dataset needed). [docs/REFERENCE.md](docs/REFERENCE.md) indexes every
-skill, command, agent, and hook, one line each — generated from the source, so it can't drift.
+**Docs:** [TUTORIAL.md](docs/TUTORIAL.md) — first project, hands-on, ~30 min, no dataset
+needed · [REFERENCE.md](docs/REFERENCE.md) — every skill, command, agent, and hook, one line
+each (generated from source, so it can't drift).
+
+## Use it for — and what it doesn't replace
+
+**Use it for:** running a DS project end to end (define → data → model → evaluate → report →
+ship → monitor) with the discipline enforced instead of remembered · quick ad-hoc analysis
+with honesty rules but zero ceremony · carrying one set of conventions across every project
+and teammate session.
+
+**It does not aim to replace:**
+
+- **Your tools.** MLflow/W&B, Hydra, DVC, Docker, AWS — the scaffold *drives* them with
+  version-pinned, correct usage (`/skill-update` keeps the facts current). It is not a
+  tracker, a versioner, or a cloud.
+- **Your judgment.** Gates need a human verdict; the interview challenges your choices but
+  you decide; IAM policies and label specs get reviewed by you. This is not an autopilot
+  from prompt to shipped model.
+- **A data platform.** No orchestrator, warehouse, or feature store inside — the infra lanes
+  connect to yours (or stand up local twins for offline work).
+- **Learning the craft.** It enforces good practice and explains its reasoning, but it's a
+  practitioner's harness, not a course.
 
 ## How it works
 
@@ -75,14 +81,30 @@ flowchart LR
 
 | Layer | What it does |
 |---|---|
-| **Process** | The project runs on [`PROCESS.md`](PROCESS.md) — a hybrid of CRISP-DM/TDSP/CRISP-ML(Q) with written exit gates per phase. `/gate` reviews evidence and refuses to advance on unchecked items; ad-hoc asks ("plot this CSV") skip the ceremony entirely. |
-| **Skills** | On-demand playbooks, loaded only when relevant. Three groups: always-on (chassis + core DS workflow), tool-gated (MLflow ↔ W&B, Hydra ↔ OmegaConf — each version-**pinned**, `/skill-update` syncs them to your installed dep), and lane-gated (tabular, time-series, LLM, SQL, serving — flipped by what you're building). |
-| **Subagents** | Specialists to delegate to — data engineering, model building, error analysis, diff review with an ML lens — each preloaded with the skills its job depends on. |
-| **Hooks** | Enforcement around tool calls: deps must go through `uv`, notebooks commit clean, secrets can't be written, leakage tests gate session end. |
-| **Commands** | `/setup` → `/intake` + `/bootstrap` (one-time), `/gate` (phase reviews), `/report` (evidence-cited deliverables), `/skill-update` + `/upgrade` (maintenance: tool facts and the scaffold itself stay current), `/review` + `/wrapup` (the daily loop). |
-| **Memory** | Session summaries, roadmap, reference notes, policy canon, and live process state (phase, risks, scope, decisions) — pulled on demand, never auto-loaded. |
+| **Process** | [`PROCESS.md`](PROCESS.md) — CRISP-DM/TDSP/CRISP-ML(Q) hybrid with per-phase exit gates, enforced by `/gate`. |
+| **Skills** | On-demand playbooks in three tiers: always-on DS core, tool-gated (MLflow ↔ W&B, version-**pinned**), lane-gated by archetype. |
+| **Subagents** | Specialists — data engineering, model building, error analysis, review with an ML lens — preloaded with the skills their job needs. |
+| **Hooks** | Deterministic enforcement around tool calls; the security floor. |
+| **Commands** | One-time setup (`/setup`, `/intake`, `/bootstrap`), reviews (`/gate`, `/review`), deliverables (`/report`), maintenance (`/skill-update`, `/upgrade`), close-out (`/wrapup`). |
+| **Memory** | Session notes, roadmap, policy canon, live process state — pulled on demand, never auto-loaded. |
 
-## What's in the box
+Stack defaults: `uv` · MLflow · Hydra · DVC — swappable at `/intake`. No archetype is
+privileged (one caveat: `/bootstrap`'s generated skeleton is currently the deep-learning
+shape; other archetype skeletons are on the roadmap).
+
+## Daily usage
+
+- **Describe the work; skills surface themselves** — "split this new dataset" loads the split
+  discipline; name a skill if the right one doesn't appear.
+- **`/gate` at phase boundaries** — unchecked items become named gate debt, not silent
+  scope-slide. Expect your first BLOCKED verdict early; that's the system working.
+- **`/review` before you commit · `/wrapup` when you stop** — the diff gets the ML lens;
+  the session gets recorded so next time "what did we decide?" has an answer.
+- **`/report` when someone needs the story** — assembled from the repo's records; evidence
+  gaps become TODOs, never plausible numbers.
+
+<details>
+<summary><b>What's in the box</b> — the full tree</summary>
 
 ```
 .claude/
@@ -101,19 +123,19 @@ flowchart LR
 │   │                         #   · finetune-unsloth · llm-eval · serving · monitoring
 │   │                         #   · infra-aws (least-privilege IAM role) · containers (Docker/Compose)
 │   │                         #   · local-stack (offline twins: MinIO · CVAT · Postgres+extensions)
-│   │                         #   — flipped by project archetype, so a CV user never pays for them
+│   │                         #   — flipped by project archetype
 │   └── _example/             # how to write a skill
 ├── commands/                 # setup · intake · bootstrap · gate · skill-update · upgrade · report
 │                             #   · review · wrapup · _TEMPLATE
 ├── hooks/
 │   ├── validate-python.py    # ruff format + check on every edited .py
-│   ├── validate-bash.sh      # blocks rm -rf of root/home
+│   ├── validate-bash.sh      # blocks root/home wipes + .env reads; confirms destructive ops
 │   ├── guard-pyproject.py    # dependency edits must go through `uv add`
 │   ├── guard-notebook-outputs.py  # .ipynb writes must be output-stripped
 │   ├── guard-secrets.py      # blocks writes containing credential-shaped tokens
 │   └── run-leakage-tests.sh  # leakage tests run at session end; red blocks the stop
-├── scripts/                  # helpers used by hooks/commands
-├── templates/                # files /bootstrap copies into the target project
+├── scripts/                  # helpers used by hooks/commands (incl. check-scaffold, build-reference)
+├── templates/                # starter files for the target project (incl. the AWS IAM policy)
 └── memory/                   # sessions/ · roadmap.md · reference/ · policy/ (governance canon)
                               #   · process/ (live phase state, risks, scope, decisions)
 CLAUDE.md                     # the index (all that loads every session)
@@ -121,8 +143,10 @@ PROCESS.md                    # the phase-gate framework — phases P1–P7, exi
 install.sh                    # the drop-in installer (ships all of the above)
 ```
 
+</details>
+
 <details>
-<summary><b>What /bootstrap generates</b> (interviews you for the CV task, then emits the skeleton to match)</summary>
+<summary><b>What /bootstrap generates</b> (interviews you for the task, then emits the skeleton to match)</summary>
 
 The task answer genuinely reshapes the output — anomaly detection is not classification with the
 labels renamed, and a fit-not-trained method (PatchCore, PaDiM) gets a `fit.py` with no optimizer or
@@ -149,27 +173,8 @@ eval that re-loads the checkpoint, a resume.
 
 </details>
 
-## Daily usage
-
-- **Describe the work; skills surface themselves.** "How do I resume from the last checkpoint?"
-  loads `training`; "split this new dataset" loads `datasets` with the leakage rules. If the right
-  one isn't surfacing, name it.
-- **Delegate to subagents.** "Have the data-engineer wire up the new annotations." "Get the
-  eval-analyst to break the metric down per class."
-- **`/gate` at phase boundaries** — the exit-gate review, demanding evidence per item; unchecked
-  items become named gate debt instead of silent scope-slide. One-off asks skip all of this.
-- **`/review` before you commit** — the working-tree diff, with the ML lens (device/dtype, shapes,
-  leakage, seeds).
-- **`/report` when someone needs the story** — a stakeholder summary, white paper, or model card
-  assembled from the repo's records; every number cites a run id, gaps become TODOs.
-- **`/wrapup` when you stop** — records a session summary (including the current phase + gate
-  debt), updates the roadmap, lands the branch. Next session, "what did we decide about the crop
-  padding?" has an answer.
-
-## A project, end to end
-
 <details>
-<summary><b>What a real project looks like running through the scaffold</b> (illustrative — a widget defect detector)</summary>
+<summary><b>A project, end to end</b> (illustrative — a widget defect detector)</summary>
 
 **Day 1 — `/setup`.** The definition interview opens: *"so what are we building?"* You describe
 defect detection on a factory line. It classifies the archetype (CV, in-lane), fills the T1
@@ -209,19 +214,12 @@ win, and the report refused to invent the missing number — all structural.
 
 </details>
 
-## After installing
-
-1. `/setup` — or `/intake`, `/bootstrap`, `/gate` piecewise (see Quick start).
-2. Fill the `<PLACEHOLDER>`s the setup commands list — the ones needing *your* decisions: the
-   architecture doc, the policy domains in `memory/policy/`, the data-remote URL.
-3. Build real skills/agents from `_example/` and `_TEMPLATE.md`, then delete the leftovers.
-
 <details>
 <summary><b>Troubleshooting</b></summary>
 
 - **A skill isn't surfacing** — check `skillOverrides` in `settings.json` (tool *and lane* skills
-  are gated; your lane may be off), or name the skill explicitly. For your own skills, pack the frontmatter `description` with the
-  words you'd actually type — matching happens on that text alone.
+  are gated; your lane may be off), or name the skill explicitly. For your own skills, pack the
+  frontmatter `description` with the words you'd actually type — matching happens on that text alone.
 - **MLflow file-store error on startup** — MLflow 3.x needs a database URI (`sqlite:///mlflow.db`),
   not `./mlruns`. See the `tracking-mlflow` skill.
 - **`${oc.env:DATA_ROOT}` resolves empty** — Hydra reads the *process* env, not `.env`; the entry
@@ -236,29 +234,18 @@ win, and the report refused to invent the missing number — all structural.
 
 ## Security model
 
-**The hooks are guardrails against agent *mistakes*, not a
-sandbox against an adversary.** They pattern-match and fail open; a determined bypass defeats them.
-The actual security boundary is Claude Code's permission system (the `settings.json` allow/deny
-lists) and whatever OS-level isolation you run.
-
-What is enforced today: destructive-but-legitimate operations (recursive deletes, `git reset
---hard`, force-push, deleting datasets/checkpoints) trigger a confirmation dialog that fires in
-*every* permission mode — including `bypassPermissions` — via the hook `permissionDecision: ask`
-mechanism, piping a download into a shell is blocked outright, secrets stay out of the transcript (`.env` reads are denied on both the Read
-and shell paths), credential-shaped tokens can't be written into tracked files (`guard-secrets.py`,
-plus gitleaks on human commits via the pre-commit template), dependencies only enter through
-`uv add`, notebook outputs never reach git, and `git push` is deliberately absent from the
-allow-list — landing work remotely is always an explicit user ask.
-
-The full threat model and the org-specific slots (secret manager, approved egress destinations) live
-in `.claude/memory/policy/security.md`, governed like everything else through the `governance` skill.
+**The hooks are guardrails against agent *mistakes*, not a sandbox against an adversary** — they
+pattern-match and fail open. The boundary is Claude Code's permission system (`settings.json`
+allow/deny), OS-level isolation, and — for cloud work — a least-privilege IAM role the agent
+structurally cannot widen. Enforced today: destructive ops get a confirm dialog in every
+permission mode, secrets stay out of the transcript and out of tracked files, deps enter only
+through `uv add`, and `git push` is always an explicit ask. Full threat model:
+[`.claude/memory/policy/security.md`](.claude/memory/policy/security.md).
 
 ## Contributing
 
-PRs welcome — [CONTRIBUTING.md](CONTRIBUTING.md) has the bar (short version: earn the always-on
-surface, stay in the description budget, pin tool facts, register everything, and
-`check-scaffold.sh` must pass). Architecture debates start from the recorded decisions in
-`.claude/memory/reference/`.
+PRs welcome — [CONTRIBUTING.md](CONTRIBUTING.md) has the bar and the stability contract.
+Architecture debates start from the recorded decisions in `.claude/memory/reference/`.
 
 ## License
 
