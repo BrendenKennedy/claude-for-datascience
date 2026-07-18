@@ -146,6 +146,49 @@ eval that re-loads the checkpoint, a resume.
 - **`/wrapup` when you stop** — records a session summary, updates the roadmap, lands the branch.
   Next session, "what did we decide about the crop padding?" has an answer.
 
+## A project, end to end
+
+<details>
+<summary><b>What a real project looks like running through the scaffold</b> (illustrative — a widget defect detector)</summary>
+
+**Day 1 — `/setup`.** The definition interview opens: *"so what are we building?"* You describe
+defect detection on a factory line. It classifies the archetype (CV, in-lane), fills the T1
+problem statement conversationally, and pushes back where it should:
+
+> *"You said accuracy as the metric — the line runs 99.5% good parts, so 'call everything good'
+> scores 99.5%. Typical practice here is per-defect recall at a fixed false-alarm rate, plus
+> calibration if the score gates shipments. Are you sure?"*
+
+The challenged decision lands in `memory/process/decision-log.md`. The stack interview confirms
+defaults, `/bootstrap` generates the skeleton **and proves it** (a real train/eval/resume on
+synthetic data — the report shows the tracker run id), and `/gate` passes P1 with the definition
+doc as evidence. Three checkpoint commits exist; `/wrapup` records the session.
+
+**Week 1 — data work.** "Split this new dataset" surfaces `datasets` (group-split, because
+multiple images share a part) and `eda` (the sample grids catch a camera whose images are 2×
+darker — logged to the risk register). Labeling starts spec-first via `annotation`: the pilot's
+inter-annotator agreement misses the written threshold, the spec gains two occlusion rulings,
+the re-pilot clears. `/gate` P2: **BLOCKED** — the label-error audit hasn't run. That's gate
+debt, recorded by name; work continues inside the phase, and nothing slides forward silently.
+
+**Week 3 — modeling.** `training` + `tracking-mlflow` conventions mean every run is seeded,
+config-snapshotted, and comparable. A promising +1.2 mAP "win" dies in review: `statistics`'
+seed-variance check shows ±1.5 across seeds. The experiment budget (written at P1, hardened at
+P5) says 40 GPU-hours remain — the sweep gets pruned accordingly.
+
+**Week 5 — ship it.** `/gate` P5 passes with the error analysis as evidence (`eval-analyst`
+produced it citable). `/report stakeholder` assembles the summary from the repo's records —
+every number carries a run id, and one claim it can't back becomes `[TODO: evidence — no
+per-camera eval run exists]` instead of a plausible guess. The registry alias moves only after
+the model card exists. `monitoring` flips on in `skillOverrides`, prediction logging wired
+before launch.
+
+The through-line: **nothing above relied on anyone remembering to be careful.** The interview
+challenged the metric, the gate refused the unaudited labels, the noise floor killed the fake
+win, and the report refused to invent the missing number — all structural.
+
+</details>
+
 ## After installing
 
 1. `/setup` — or `/intake`, `/bootstrap`, `/gate` piecewise (see Quick start).

@@ -9,6 +9,7 @@ written gate + a decision-log line.
 - (nothing active — the next real project run through `/setup` drives the backlog)
 
 ## Next
+- Push `main` + tags to origin; create GitHub releases from the CHANGELOG entries
 - Run `/doctor` to confirm the skill-listing budget post-rewrite
 - Watch skill surfacing after the description rewrite; sharpen under-triggering descriptions
 
