@@ -4,6 +4,29 @@ All notable changes to claude-for-datascience. Format follows [Keep a Changelog]
 versions follow [SemVer](https://semver.org/). Installed projects can compare their
 `.claude/scaffold-version` stamp against these entries to see what they're missing.
 
+## [0.6.0] — 2026-07-18
+
+The communication pass: the workflow arc now runs end to end — understand the data before
+modeling it, and turn the result into an evidence-cited deliverable at the far side. Four new
+always-on workflow skills plus `/report`.
+
+### Added
+- **`eda`** — disciplined exploration: the first-look checklist, split-aware EDA (modeling
+  decisions from train only), leakage-hunting, image-data EDA (sample grids, label overlays);
+  findings land in P2's data-quality notes / risk register / feature dictionary, not a
+  scrolled-past notebook.
+- **`visualization`** — charts as evidence: chart-for-question mapping, honesty rules
+  (bars-from-zero, shared axes, intervals + n on every estimate), perceptual rules
+  (viridis-family, colorblind-safe), figures-as-code logged to the tracker, and the standard
+  diagnostics set per task.
+- **`statistics`** — what "evidence" means: seed variance as the noise floor (≥3 seeds,
+  mean ± sd), bootstrap CIs, can-the-test-set-resolve-the-claim arithmetic, paired model
+  comparisons, A/B test basics, multiple-comparisons discipline for slice scans.
+- **`reporting` + `/report`** — deliverables (technical report, white paper, stakeholder
+  summary, model card) assembled from the repo's own records: T1 problem statement, decision
+  log, tracker runs, session notes. Every claim cites a run id; evidence gaps become
+  `[TODO: evidence]`, never plausible numbers.
+
 ## [0.5.0] — 2026-07-18
 
 The comprehensiveness pass: the scaffold now serves the general-DS archetypes, not just CV.

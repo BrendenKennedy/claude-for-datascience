@@ -18,6 +18,7 @@ written gate + a decision-log line.
 - Stop-hook gate-debt warning (stricter §3.8 enforcement)
 
 ## Done (recent)
+- Release v0.6.0: communication layer (eda, visualization, statistics, reporting + /report) — 2026-07-18
 - Release v0.5.0: lane skills (tabular, timeseries, monitoring) + config-omegaconf — 2026-07-18
 - Release v0.4.0 (process framework, efficiency pass, agent audit, versioned tool skills,
   llm-eval + hpo-optuna) — 2026-07-18
