@@ -4,6 +4,30 @@ All notable changes to claude-for-datascience. Format follows [Keep a Changelog]
 versions follow [SemVer](https://semver.org/). Installed projects can compare their
 `.claude/scaffold-version` stamp against these entries to see what they're missing.
 
+## [0.8.0] — 2026-07-18
+
+The infrastructure pass: the scaffold learns to manage the infrastructure under the pipelines —
+through a boundary it cannot widen. AWS-first, Docker over Kubernetes, and the repo's
+guardrails-vs-boundary security model extended to the cloud.
+
+### Added
+- **`infra-aws`** (lane, off) — S3 + Redshift via the AWS CLI/boto3, acting through a dedicated
+  least-privilege `claude-for-datascience` IAM role. Ships a starter policy
+  (`.claude/templates/aws-iam-policy.json`): project-prefixed ARNs, read-heavy defaults, and an
+  explicit `Deny` tier (bucket/cluster deletion, **all `iam:*`** — the role structurally cannot
+  widen itself). S3-as-DVC-remote, UNLOAD/COPY through S3, cost awareness. SageMaker/EC2
+  deferred until demand shows.
+- **`containers`** (lane, off) — Docker + Compose: digest-pinned CUDA training images built from
+  the lockfile, slim serving images that pull the model from the registry at start, GPU runtime,
+  Compose for support services (MLflow + Postgres) with named-volume discipline, and
+  `.dockerignore` as a security control. Kubernetes deliberately parked.
+- **`validate-bash` A6/A7 tiers** — confirm dialogs on destructive AWS operations
+  (bucket/cluster/instance deletion), all IAM mutation, and Docker state removal
+  (`volume rm/prune`, `compose down -v`).
+- **Security canon**: "Cloud credentials & the IAM boundary" — the agent acts through the scoped
+  role, never a human admin profile; credentials stay in the credential store; CloudTrail +
+  bucket versioning as part of least privilege.
+
 ## [0.7.0] — 2026-07-18
 
 The end-to-end pass: audited against what commercial DS agents (NL-to-SQL, warehouse work,
