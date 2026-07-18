@@ -20,6 +20,16 @@ Each type ships a scaffold — copy it, don't start blank: `skills/_example/`, `
 - **The `description` is the entire routing surface.** For skills and agents it's the *only* text the
   matcher sees — not the body. Vague descriptions never fire. Pack it with the concrete words the user
   will actually type.
+- **Descriptions have a hard budget — front-load or get truncated.** The skill listing truncates each
+  entry at **1,536 chars (tail first)** and the whole listing shares a budget (~1% of the context
+  window; overflow drops least-used skills' descriptions entirely). So: first sentence = domain + use
+  case, then `Load when <tasks>`, then `Triggers:` ranked **sharpest first** — a trigger after
+  char ~1,200 may not exist as far as routing is concerned. Target **≤1,000 chars**. Every always-on
+  description is paid for in every session; earn it.
+- **User-run-only? Take it off the context bill.** `disable-model-invocation: true` removes a
+  skill/command's description from the session listing entirely — `/name` still works. Use it for
+  one-time commands (`/setup`, `/intake`, `/bootstrap`) and template placeholders; never for anything
+  the model itself must invoke (`/gate`, `/wrapup` stay listed).
 - **kebab-case names.** For a skill, the directory name and the `name:` field must match
   (`skills/foo-bar/SKILL.md` → `name: foo-bar`).
 - **Register it in the CLAUDE.md map.** The map is loaded every session and is how anything gets
@@ -38,8 +48,8 @@ Each type ships a scaffold — copy it, don't start blank: `skills/_example/`, `
 
 On-demand expertise. Loaded only when the `description` matches, so it can be long and detailed.
 
-**Description formula** (from `_example`):
-> `<What this skill knows — the domain, the system, the contract>. Use for <the tasks it covers>. Triggers: <comma-separated phrases, tool names, file paths, jargon a user might type>.`
+**Description formula** (from `_example` — front-loaded, ≤1,000 chars, see the budget rule above):
+> `<Domain/contract in one clause> — <what it carries: the 3–5 specifics an agent can't guess>. Load when <the tasks it covers>. Triggers: <phrases the user will actually type, sharpest first>. <Optional one-clause scope boundary — what belongs to a sibling skill>.`
 
 **Two tiers — decide which before writing:**
 - **Always-on** (chassis + workflow) — process skills and tool-agnostic CV/DS domain skills. Not listed

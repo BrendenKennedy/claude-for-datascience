@@ -1,20 +1,15 @@
 ---
 name: memory
 description: >
-  How this repo remembers work across sessions AND how it manages branches/commits — the read/write
-  process for the `.claude/memory/` working-memory store plus the git branch-per-session workflow.
-  `.claude/memory/` holds: `sessions/` (dated refined summaries), `roadmap.md` (the backlog), and
-  `reference/` (stable how-we-do-X notes). Carries: RECALL (when the user references earlier work,
-  grep/read `.claude/memory/sessions/` newest-last and answer from it), RECORD (after substantive work
-  add a refined `sessions/YYYY-MM-DD-<slug>.md` from the template below + update `roadmap.md`),
-  REFERENCE (promote a reusable pattern to `reference/`), and BRANCH MANAGEMENT (don't commit straight
-  to `main` — branch per session/wave off main, commit only when asked, land, note the branch+commit in
-  the session record). The `.claude/memory/` tree is the DATA; this skill is the PROCESS. Reach for it
-  when starting/branching a unit of work, wrapping one up, or when the user references past sessions.
-  Triggers: record the session, wrap up, close out, session note, session log, update the roadmap, add a
-  reference note, what did we do, what did we decide, remind me, previously, last session, recall,
-  memory, working memory, start a branch, which branch, should I branch, feature branch, land this,
-  merge to main, commit this, close out the session.
+  Cross-session working memory + the branch-per-session git workflow — the read/write process for
+  `.claude/memory/` (`sessions/`, `roadmap.md`, `reference/`). RECALL: when earlier work is
+  referenced, grep/read `sessions/` newest-last and answer from it. RECORD: after substantive work,
+  add `sessions/YYYY-MM-DD-<slug>.md` from the template + update the roadmap. REFERENCE: promote
+  reusable patterns to `reference/`. BRANCH: don't commit straight to main — branch per
+  session/wave, commit only when asked, land, note branch+hash in the session record. Load when
+  starting or wrapping a unit of work, or when past sessions come up. Triggers: record the session,
+  wrap up, close out, session note, roadmap, what did we do, what did we decide, last session,
+  recall, remind me, start a branch, feature branch, land this, merge to main, commit this.
 ---
 
 # Memory — journaling past work + branch hygiene

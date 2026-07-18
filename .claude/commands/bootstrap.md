@@ -1,5 +1,6 @@
 ---
 description: One-time project bootstrap — generate the conf/ tree and the train/eval entry points the skills assume, then back-fill the placeholders that only become answerable once that code exists.
+disable-model-invocation: true
 ---
 
 Create the project skeleton this scaffold's skills already describe. `/intake` picks the **stack**; this
@@ -11,7 +12,10 @@ package under `src/` (read it from `pyproject.toml` — do not invent one).
 
 ## 1. Interview (use the **AskUserQuestion** tool)
 
-The skeleton's shape depends on the task; don't guess it. Ask, batched into one call:
+The skeleton's shape depends on the task; don't guess it. **First read
+`.claude/memory/process/project-definition.md`** (written by `/intake` step 0) — its **Setup
+implications** section may already answer the questions below; present those as pre-selected
+options to confirm, don't re-ask blind. Then ask, batched into one call:
 
 - **CV task** — image classification *(default)* / object detection / semantic segmentation /
   **anomaly detection** (industrial defect finding) / **a multi-stage pipeline** (localize the item, then

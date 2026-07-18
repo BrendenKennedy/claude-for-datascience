@@ -1,17 +1,15 @@
 ---
 name: notebooks
 description: >
-  How Jupyter notebooks are used in this repo — thin, exploratory, and reproducible, never the home of
-  real logic. The rule that keeps them sane: **logic lives in importable modules under `src/`; notebooks
-  import, they don't define.** Carries the concrete habits — launch the kernel from the uv env
-  (`uv run jupyter lab`) so it matches `env-uv`, `%load_ext autoreload` so edits to `src/` land without a
-  restart, strip outputs before committing (nbstripout / Clear All Outputs), never commit heavy outputs or
-  data, and parametrize repeatable runs with papermill or `jupyter nbconvert --execute`. Reach for it
-  before opening, editing, or committing a `.ipynb`, when a notebook's cells only work in a remembered
-  order, or when exploratory code has grown big enough to promote into a module. Triggers: notebook,
-  jupyter, jupyter lab, jupyter notebook, .ipynb, ipynb, kernel, nbstripout, nbconvert, papermill,
-  autoreload, clear outputs, strip outputs, notebook diff, out-of-order cells, restart and run all,
-  reproducible notebook, exploratory analysis, EDA, scratch notebook, promote notebook code.
+  Jupyter in this repo — thin, exploratory, reproducible; logic lives in importable modules under
+  `src/`, notebooks import, they don't define. Carries: launch the kernel from the uv env (`uv run
+  jupyter lab`), `%load_ext autoreload` so `src/` edits land without restart, strip outputs before
+  committing (nbstripout — the guard hook blocks output-carrying `.ipynb`), never commit heavy
+  outputs or data, parametrize repeatable runs with papermill or `nbconvert --execute`, and promote
+  grown exploratory code into modules. Load before opening, editing, or committing a `.ipynb`, or
+  when cells only work in a remembered order. Triggers: notebook, jupyter, jupyter lab, .ipynb,
+  kernel, nbstripout, nbconvert, papermill, autoreload, clear outputs, strip outputs, out-of-order
+  cells, restart and run all, EDA, exploratory analysis, promote notebook code.
 ---
 
 # notebooks — thin, exploratory, reproducible Jupyter

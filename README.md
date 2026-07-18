@@ -37,11 +37,13 @@ cd ~/path/to/my-project
 ~/dev/claude-for-datascience/install.sh .
 ```
 
-Then, inside Claude Code — both commands, in this order:
+Then, inside Claude Code:
 
 ```
-/intake      # picks your STACK  (tracker · config system · data versioning)
-/bootstrap   # builds the SHAPE  (conf/ tree · entry points · tests — and proves they run)
+/setup       # the whole sequence, one guided session — or run the pieces yourself:
+/intake      #   defines the PROJECT ("what are we building?") + picks your STACK
+/bootstrap   #   builds the SHAPE  (conf/ tree · entry points · tests — and proves they run)
+/gate        #   reviews the P1 exit gate against the definition doc
 ```
 
 Or skip the clone: this is a GitHub template — hit **"Use this template"** to start a new project
@@ -51,9 +53,10 @@ from it directly.
 
 ```mermaid
 flowchart LR
-    A["install.sh<br/><i>copy .claude/ in</i>"] --> B["/intake<br/><i>pick the STACK</i>"]
+    A["install.sh<br/><i>copy .claude/ in</i>"] --> B["/intake<br/><i>define the PROJECT<br/>pick the STACK</i>"]
     B --> C["/bootstrap<br/><i>build the SHAPE</i>"]
-    C --> D["daily loop"]
+    C --> H["/gate<br/><i>pass P1</i>"]
+    H --> D["daily loop"]
     subgraph D["the daily loop"]
         direction LR
         E["work — skills<br/>auto-surface"] --> F["/review<br/>the diff"] --> G["/wrapup<br/>record + land"]
@@ -66,7 +69,7 @@ flowchart LR
 | **Skills** | On-demand playbooks, matched to what you're doing. Two tiers: always-on (process + CV/DS domain) and tool-gated (`/intake` flips MLflow ↔ W&B etc. via `skillOverrides`). |
 | **Subagents** | Specialists to delegate to: data engineering, model building, error analysis, diff review with an ML lens. |
 | **Hooks** | Enforcement around tool calls: deps must go through `uv`, notebooks commit clean, leakage tests gate session end. |
-| **Commands** | `/intake` and `/bootstrap` (one-time setup), `/review` and `/wrapup` (the daily loop). |
+| **Commands** | `/setup` → `/intake` + `/bootstrap` (one-time setup), `/gate` (phase-gate reviews), `/review` and `/wrapup` (the daily loop). |
 | **Memory** | Session summaries, roadmap, reference notes, policy canon — pulled on demand, never auto-loaded. |
 
 ## What's in the box
@@ -77,11 +80,11 @@ flowchart LR
 ├── agents/                   # code-reviewer · software-architect · ml-engineer
 │                             #   · eval-analyst · data-engineer · _TEMPLATE
 ├── skills/
-│   ├── (process)             # governance · memory · testing · wave-planning
-│   ├── (CV/DS domain)        # datasets · training · evaluation · pipelines · notebooks
+│   ├── (chassis)             # process · governance · memory · testing · wave-planning
+│   ├── (CV/DS domain)        # datasets · annotation · training · evaluation · pipelines · notebooks
 │   ├── (tool, /intake-gated) # env-uv · tracking-mlflow · config-hydra · data-dvc · tracking-wandb
 │   └── _example/             # how to write a skill
-├── commands/                 # intake · bootstrap · review · wrapup · _TEMPLATE
+├── commands/                 # setup · intake · bootstrap · gate · review · wrapup · _TEMPLATE
 ├── hooks/
 │   ├── validate-python.py    # ruff format + check on every edited .py
 │   ├── validate-bash.sh      # blocks rm -rf of root/home
@@ -138,7 +141,7 @@ eval that re-loads the checkpoint, a resume.
 
 ## After installing
 
-1. `/intake`, then `/bootstrap` (see Quick start).
+1. `/setup` — or `/intake`, `/bootstrap`, `/gate` piecewise (see Quick start).
 2. Fill the `<PLACEHOLDER>`s the two commands list — the ones needing *your* decisions: the
    architecture doc, the policy domains in `memory/policy/`, the data-remote URL.
 3. Build real skills/agents from `_example/` and `_TEMPLATE.md`, then delete the leftovers.

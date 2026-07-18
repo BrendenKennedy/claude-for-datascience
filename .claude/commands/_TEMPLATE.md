@@ -1,5 +1,6 @@
 ---
 description: <One line shown in the slash-command list. Start with a verb.>
+disable-model-invocation: true   # template placeholder — remove this line in your real command unless it's user-run-only
 # argument-hint: <arg>      # optional: shown after the command name as a usage hint
 # allowed-tools: Bash, Read # optional: restrict tools for this command's run
 ---

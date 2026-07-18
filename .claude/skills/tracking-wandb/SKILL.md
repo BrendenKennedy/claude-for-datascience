@@ -1,20 +1,15 @@
 ---
 name: tracking-wandb
 description: >
-  How this repo records experiments with **Weights & Biases** — every train/eval run becomes a tracked,
-  comparable, reproducible record. Carries the commands that work today: `wandb.init` (project, run name,
-  and the resolved config) as a context manager, `wandb.log({...}, step=)` for per-step curves,
-  `wandb.Artifact` for checkpoints / plots / the composed config file, tags for run metadata, and
-  `wandb.watch(model)` for hands-off gradient/parameter logging. Also authentication (`WANDB_API_KEY` in
-  `.env`), `WANDB_MODE=offline` + `wandb sync` for airgapped/GPU boxes without egress, run naming +
-  organizing projects, and comparing runs in the W&B workspace. Reach for it when a train or eval loop
-  needs to record what it did, when you can't find a past result, or when setting up tracking on a new
-  box. The `training` and `evaluation` skills CALL this to log; pair with `config-hydra` (log the composed
-  config) and the reproducibility always-on convention. Triggers: wandb, w&b, weights and biases, weights
-  & biases, wandb.init, wandb.log, wandb.watch, wandb.Artifact, log metrics, log params, track this run,
-  experiment tracking, WANDB_API_KEY, WANDB_MODE, wandb offline, wandb sync, wandb login, compare runs,
-  run name, project name, entity, log the config, log a checkpoint, where did that result go, reproducible
-  experiment, record hyperparameters.
+  Recording experiments with Weights & Biases — every train/eval run becomes a tracked, comparable,
+  reproducible record. Carries: `wandb.init(project=...)` to open a run, `wandb.log({...}, step=)`
+  for per-step curves, `wandb.config` for the resolved hyperparams, artifacts for
+  checkpoints/plots/the composed config, tags + run names for organizing, and comparing runs in the
+  W&B UI. Load when a train/eval loop needs to record what it did, when a past result can't be
+  found, or when setting up tracking on a new box; `training`/`evaluation` call this to log; pair
+  with `config-hydra` to log the composed config. Triggers: wandb, weights and biases, wandb.init,
+  wandb.log, experiment tracking, track this run, log metrics/params/artifacts, compare runs, run
+  name, where did that result go, WANDB_API_KEY, wandb offline.
 ---
 
 # tracking-wandb — recording experiments so they're comparable & reproducible

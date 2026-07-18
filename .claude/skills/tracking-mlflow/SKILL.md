@@ -1,19 +1,16 @@
 ---
 name: tracking-mlflow
 description: >
-  How this repo records experiments with **MLflow** — every train/eval run becomes a tracked, comparable,
-  reproducible record. Carries the commands that work today: `mlflow.set_experiment` + `mlflow.start_run`
-  to open a run, `log_param(s)` for the resolved hyperparams, `log_metric(..., step=)` for per-step curves,
-  `log_artifact(s)` for checkpoints / plots / the composed config file, `set_tag` for run metadata, and
-  `mlflow.pytorch.autolog()` for hands-off PyTorch logging. Also the tracking URI (local `mlruns/` vs a
-  remote server), run naming + organizing experiments, and comparing runs in the `mlflow ui`. Reach for it
-  when a train or eval loop needs to record what it did, when you can't find a past result, or when setting
-  up tracking on a new box. The `training` and `evaluation` skills CALL this to log; pair with `config-hydra`
-  (log the composed config) and the reproducibility always-on convention. Triggers: mlflow, mlflow tracking,
-  experiment tracking, track this run, log metrics, log params, log_metric, log_param, log_artifact,
-  start_run, set_experiment, autolog, mlflow.pytorch.autolog, mlruns, mlflow ui, MLFLOW_TRACKING_URI,
-  tracking server, tracking uri, compare runs, run name, experiment name, log the config, log a checkpoint,
-  where did that result go, reproducible experiment, record hyperparameters.
+  Recording experiments with MLflow — every train/eval run becomes a tracked, comparable,
+  reproducible record. Carries: `mlflow.set_experiment` + `start_run`, `log_param(s)` for the
+  resolved hyperparams, `log_metric(..., step=)` for curves, `log_artifact(s)` for
+  checkpoints/plots/the composed config, `set_tag`, `mlflow.pytorch.autolog()`, the tracking URI
+  (MLflow 3.x needs a database URI, not `./mlruns`), and comparing runs in `mlflow ui`. Load when a
+  train/eval loop needs to record what it did, when a past result can't be found, or when setting up
+  tracking on a new box; `training`/`evaluation` call this to log; pair with `config-hydra` to log
+  the composed config. Triggers: mlflow, experiment tracking, track this run, log metrics,
+  log_param, log_metric, log_artifact, start_run, autolog, mlruns, mlflow ui, MLFLOW_TRACKING_URI,
+  compare runs, where did that result go, record hyperparameters.
 ---
 
 # tracking-mlflow — recording experiments so they're comparable & reproducible

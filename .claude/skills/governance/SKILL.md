@@ -1,22 +1,16 @@
 ---
 name: governance
 description: >
-  The governance layer — how this repo's policy is organized and how to LOCATE, LOAD, APPLY, and RECORD
-  against any policy file, for any governed domain. It's the index + access protocol over the policy canon
-  in `.claude/memory/policy/`. Register one row per governed domain (e.g. CODE CONVENTIONS — the idioms
-  every module follows; DATA / SCHEMA — the data model and its invariants; SECURITY — secrets, sensitive
-  data, and egress). It points at the authored canon and never copies policy text (single source of
-  truth). Run it directly whenever you touch a governed domain — each specialist consults it for the
-  policy on what it edits; there is deliberately no governance-manager agent. Use it to: find which policy
-  governs a change, load the right canon file, apply that domain's rules, record a judgment call, or add a
-  new policy domain. Triggers: governance, policy, which policy applies, where/how to access the policy,
-  apply a policy, is this allowed by policy, compliance, add a policy / new policy domain, decision log,
-  ADR, record a decision — plus each domain's own sharp trigger words, folded in here as you add
-  domains. For security (authored): secret, credential, API key, token, .env, PII, data egress,
-  is this safe to log/send, leaked key, rotate a credential, threat model, prompt injection,
-  supply chain, torch.load weights_only. <PLACEHOLDER: e.g. for code conventions — add/edit a
-  module, error handling, logging, config, idioms; for data — data model, entity, field,
-  migration, invariant>.
+  Which policy governs a change and how to apply it — the index + locate→load→apply→record protocol
+  over the policy canon in `.claude/memory/policy/`. Load for any governed change:
+  secrets/credentials/egress (security), dataset licensing/PII/labels (data-governance), model
+  reproducibility/checkpoints/release (model-governance), phase gates/scope/kill-pivot (process →
+  `PROCESS.md`). Records judgment calls in per-domain decision logs; new domains register by
+  authoring canon + adding an index row. Triggers: policy, governance, is this allowed, compliance,
+  decision log, ADR, record a decision, secret, credential, API key, token, .env, PII, data egress,
+  is this safe to log/send, threat model, prompt injection, supply chain, torch.load weights_only,
+  license, model card, phase gate, kill criteria, scope promotion. Policy text lives only in the
+  canon files — this skill indexes and never restates.
 ---
 
 # Governance — the index + access protocol over this repo's policy
@@ -45,6 +39,7 @@ elsewhere.
 | `data-governance` | datasets, labels, licensing, PII/sensitive imagery, splits & leakage | `data-governance.md` | `data-governance-decision-log.md` | ingesting/splitting/labeling data, or adding a dataset |
 | `model-governance` | trained-model reproducibility, checkpoint provenance, model cards, release + weight licensing | `model-governance.md` | `model-governance-decision-log.md` | training, checkpointing, or releasing a model |
 | `security` | secrets & credentials, what may be logged/egressed, supply chain, the guardrails-vs-boundary threat model | `security.md` | `security-decision-log.md` | touching anything that holds or moves a credential, adding logging/tracking calls, or sending data anywhere external |
+| `process` | the project lifecycle — phases, exit gates, scope, risks, kill/pivot | **`PROCESS.md` (repo root** — travels with the project, so its canon lives there, not in `policy/`; live state in `.claude/memory/process/`, run via the `process` skill + `/gate`**)** | `.claude/memory/process/decision-log.md` | starting/advancing/closing a phase, changing scope, or making a kill/pivot call |
 | `<code-conventions>` | how any source module is written — the repeated Python idioms | `<code-conventions.md>` | — | writing or editing any source file (add this canon when your idioms settle) |
 
 _Add a row per new domain. If a domain produces a generated artifact (a spec the code implements), note

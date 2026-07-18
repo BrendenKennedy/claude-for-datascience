@@ -1,22 +1,16 @@
 ---
 name: pipelines
 description: >
-  How this repo composes MULTI-STAGE CV pipelines — a cascade where one model's output is the next
-  model's input (localize the item, then judge it: detect/segment the part, then run anomaly detection on
-  the crop; find the weld, then score the weld). Carries the invariants that single-task skills do NOT
-  cover and that are where cascades actually fail: ONE split manifest shared across every stage (a
-  detector trained on images that appear in stage 2's test set contaminates it, even though stage 2 never
-  saw them), stages as PURE FUNCTIONS between contracts (Image -> Detections -> Crops -> Scores) so any
-  stage can be swapped or replaced with an ORACLE for ablation, deterministic crop geometry (a box that
-  wobbles 3px feeds a different input downstream every run), error PROPAGATION (a missed detection is a
-  system false-negative the downstream model never sees, so its metric silently hides it), the three
-  numbers you must report (per-stage, oracle-input, end-to-end), JOINT threshold tuning across stages,
-  and PINNING the upstream checkpoint hash into the downstream artifact so the run is reproducible.
-  Reach for it before building, evaluating, or debugging any two-stage (or n-stage) model pipeline.
-  Triggers: pipeline, multi-stage, two-stage, cascade, chain, stage, crop then classify, detect then
-  score, localize then judge, ROI, region of interest, crop, upstream/downstream model, end-to-end
-  metric, oracle, ablation, error propagation, which stage is failing, stage attribution, joint
-  threshold, compound error, detector feeds, segment then, dvc.yaml DAG, dvc repro, stage contract.
+  Multi-stage CV cascades — one model's output feeding the next (detect/segment the part, then judge
+  the crop). Carries the seam invariants where cascades actually fail: ONE split manifest shared
+  across every stage, stages as pure functions between contracts (Image → Detections → Crops →
+  Scores) so any stage swaps for an oracle, deterministic crop geometry, error propagation (a missed
+  detection is a system false-negative downstream metrics silently hide), the three numbers to
+  report (per-stage, oracle-input, end-to-end), joint threshold tuning, and pinning the upstream
+  checkpoint hash into the downstream artifact. Load before building, evaluating, or debugging any
+  two-stage (or n-stage) pipeline. Triggers: pipeline, cascade, multi-stage, two-stage, crop then
+  classify, detect then score, localize then judge, ROI, oracle, ablation, error propagation, which
+  stage is failing, end-to-end metric, joint threshold, upstream/downstream model.
 ---
 
 # pipelines — composing models into a cascade, honestly

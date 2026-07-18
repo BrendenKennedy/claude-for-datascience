@@ -1,19 +1,16 @@
 ---
 name: testing
 description: >
-  How verification actually works in THIS repo — the cheapest-to-costliest confidence ladder and the
-  exact commands that work TODAY (not the ones you'd assume). Carries the real test runner and its
-  invocation, the offline-safe rule (unit tests mustn't need env, a live service, network, or a GPU —
-  stub the boundary), the ML confidence checks (tiny-data smoke: a forward pass + one train step on a
-  2-sample fixture; determinism; split-leakage; metric sanity), the live/GPU-smoke pattern (skips
-  cleanly when its dependency — a service, or CUDA — is down, and self-cleans), the readiness check for
-  any service a test needs, and the environment preconditions. Reach for it BEFORE running or writing a
-  test, verifying a change, or claiming something works. Use for: running the suite, adding a test,
-  checking a change end-to-end, or wiring CI later. Triggers: run tests, run the tests, how do I test,
-  verify, does this work, test this change, is it passing, pytest, uv run pytest, offline test, smoke
-  test, readiness check, is the service up, integration test, CI, forward-pass smoke, shape mismatch,
-  device/dtype bug, determinism test, leakage test, overfit one batch, does the model train, cuda
-  available.
+  How verification works in THIS repo — the cheapest-to-costliest confidence ladder and the exact
+  commands that work today. Carries: the real test runner + invocation, the offline-safe rule (unit
+  tests need no env/service/network/GPU — stub the boundary), the ML confidence checks (tiny-data
+  smoke: a forward pass + one train step on a 2-sample fixture; determinism; split-leakage; metric
+  sanity), the live/GPU-smoke pattern (skips cleanly when its dependency is down, self-cleans),
+  readiness checks, and environment preconditions. Load BEFORE running or writing a test, verifying
+  a change, or claiming something works. Triggers: run tests, verify, does this work, test this
+  change, pytest, uv run pytest, smoke test, offline test, readiness check, integration test, CI,
+  forward-pass smoke, shape mismatch, determinism test, leakage test, overfit one batch, does the
+  model train, cuda available.
 ---
 
 # Testing & verification — how this repo actually checks a change

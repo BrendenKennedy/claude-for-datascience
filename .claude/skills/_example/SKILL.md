@@ -1,11 +1,13 @@
 ---
 name: example-skill
 description: >
-  REPLACE THIS. A skill is auto-surfaced to Claude purely by this description, so it must say
-  BOTH what knowledge the skill carries AND when to reach for it. Pack it with the concrete words
-  and phrases the user will actually use, because matching happens on this text alone. Template:
-  "<What this skill knows — the domain, the system, the contract>. Use for <the tasks it covers>.
-  Triggers: <comma-separated phrases, tool names, file paths, jargon a user might type>."
+  REPLACE THIS. A skill auto-surfaces purely on this text, and the listing TRUNCATES it at 1,536
+  chars (tail first) inside a shared budget — so front-load and stay ≤1,000 chars. Formula:
+  <domain/contract in one clause> — <what it carries: the 3–5 specifics an agent can't guess>. Load
+  when <the tasks it covers>. Triggers: <phrases the user will actually type, SHARPEST FIRST — they
+  must survive truncation>. Optionally end with a one-clause scope boundary (what belongs to a
+  sibling skill instead).
+disable-model-invocation: true
 ---
 
 # <Skill name> — <one-line subtitle>

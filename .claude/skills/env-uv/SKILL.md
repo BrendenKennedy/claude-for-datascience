@@ -1,16 +1,16 @@
 ---
 name: env-uv
 description: >
-  How this repo's Python environment is managed with **uv** — creating and syncing the venv, adding and
-  pinning dependencies, and (the part that actually bites in CV/ML) matching the **torch + CUDA** wheel to
-  the machine's driver. Carries the exact commands that work today: `uv sync` to materialize the locked
-  env, `uv add` to add a dep (never hand-edit `pyproject.toml`), `uv run` to execute inside the env, and
-  the `[[tool.uv.index]]` + `[tool.uv.sources]` pattern that pins PyTorch to the right CUDA build. Also the
-  GPU sanity check and the reproducibility rule (commit `uv.lock`, `uv sync --frozen` in CI). Reach for it
-  before installing anything, when `torch.cuda.is_available()` is False, or when setting up the env on a new
-  box. Triggers: uv, uv add, uv sync, uv lock, uv run, venv, virtualenv, install a package, add a
-  dependency, pyproject.toml, uv.lock, python version, torch, pytorch, cuda, cu121, cu124, cpu wheel,
-  torch.cuda.is_available False, nvidia-smi, gpu not found, reproducible environment, pin versions.
+  The Python environment via uv — creating/syncing the venv, adding pinned deps, and the part that
+  actually bites in CV/ML: matching the torch + CUDA wheel to the machine's driver. Carries the
+  exact commands: `uv sync` to materialize the locked env, `uv add` to add a dep (never hand-edit
+  `pyproject.toml`), `uv run` to execute inside it, the `[[tool.uv.index]]` + `[tool.uv.sources]`
+  pattern pinning PyTorch to the right CUDA build, the GPU sanity check, and the reproducibility
+  rule (commit `uv.lock`; `uv sync --frozen` in CI). Load before installing anything, when
+  `torch.cuda.is_available()` is False, or when setting up a new box. Triggers: uv, uv add, uv sync,
+  uv lock, uv run, venv, install a package, add a dependency, pyproject.toml, uv.lock, torch,
+  pytorch, cuda, cpu wheel, cuda not available, nvidia-smi, gpu not found, pin versions,
+  reproducible environment.
 ---
 
 # env-uv — the uv + CUDA environment workflow

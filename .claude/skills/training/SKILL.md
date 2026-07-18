@@ -1,18 +1,15 @@
 ---
 name: training
 description: >
-  How this repo runs a **train / fine-tune loop** — the conventions every training run follows so a run
-  is reproducible, resumable, and tracked. Carries the concrete shape: one entry point driven by the
-  config system (`config-hydra`), seed-everything + cuDNN determinism, checkpoint the **best and last**
-  with epoch/model/optimizer/scheduler/config/git-SHA (so a run can `resume`), stream metrics to the
-  tracker (`tracking-mlflow`), AMP mixed precision, gradient accumulation, LR scheduling, early stopping,
-  and explicit `.to(device)` / dataloader `num_workers` + `pin_memory` handling. Reach for it before
-  writing or changing a training loop, wiring checkpointing/resume, adding a scheduler or early stopping,
-  or debugging a run that won't reproduce. Triggers: train, training loop, fine-tune, finetune, trainer,
-  train.py, epoch, checkpoint, ckpt, save/load checkpoint, resume training, resume from checkpoint, seed,
-  determinism, deterministic, cudnn, reproducible run, AMP, mixed precision, autocast, GradScaler,
-  gradient accumulation, accumulate grads, LR schedule, scheduler, warmup, early stopping, patience,
-  num_workers, pin_memory, device, .to(device), cuda:0, best model, last checkpoint, git SHA, RNG state.
+  The train / fine-tune loop conventions — every run reproducible, resumable, tracked. Carries: one
+  config-driven entry point (`config-hydra`), seed-everything + cuDNN determinism, checkpoint best
+  AND last with epoch/model/optimizer/scheduler/config/git-SHA (so runs resume), metrics streamed to
+  the tracker, AMP mixed precision, gradient accumulation, LR scheduling, early stopping, and
+  explicit `.to(device)` / dataloader `num_workers` + `pin_memory`. Load before writing or changing
+  a training loop, wiring checkpointing/resume, adding a scheduler or early stopping, or debugging a
+  run that won't reproduce. Triggers: train, training loop, fine-tune, train.py, epoch, checkpoint,
+  ckpt, resume, seed, determinism, cudnn, reproducible run, AMP, autocast, GradScaler, gradient
+  accumulation, LR schedule, warmup, early stopping, num_workers, pin_memory, best model, RNG state.
 ---
 
 # training — the train / fine-tune loop conventions

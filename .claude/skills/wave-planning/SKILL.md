@@ -1,21 +1,15 @@
 ---
 name: wave-planning
 description: >
-  How to turn ONE feature goal into a parallel BUILD PLAN — the decomposition method that carves a goal
-  into N agent tasks that don't collide, so a coordinator can fan them out and finish faster. It takes a
-  settled design and emits a dependency-tagged wave manifest (`id / deps / files / task`) whose parallel
-  frontier is a query, not a guess. The crux it enforces: batch on FILE-DISJOINTNESS, not logic — two
-  logically-independent tasks that touch the same file cannot run in the same wave. Carries the recipe
-  (map seams → extract contracts into a foundation task → carve the collision-free frontier → consolidate
-  shared hotspots out → serial integration last → emit the manifest) and the guardrails where naive
-  splitting bites. It STOPS AT THE MANIFEST: dispatch, worktree isolation, and collection are the
-  harness's job (Workflow / Agent), branching and landing are the `memory` skill's, the architecture is
-  `software-architect`'s. Reach for it AFTER the design is settled and BEFORE putting more than one agent
-  on the work, or when adding a backlog task (tag it so the frontier stays computable). Triggers:
-  parallelize, parallelization, decompose, decomposition, wave, wave plan, plan the build, split this
-  work, fan out, what can run in parallel, what's independent, break this into tasks, agent tasks, task
-  manifest, deps, collision, file-disjoint, frontier, run N at once, do these concurrently, speed up the
-  build.
+  Turn ONE settled feature goal into a parallel build plan — N agent tasks that don't collide,
+  emitted as a dependency-tagged wave manifest (id / deps / files / task). The crux it enforces:
+  batch on FILE-DISJOINTNESS, not logic — two logically-independent tasks touching the same file
+  cannot share a wave. Recipe: map seams → contracts into a foundation task → collision-free
+  frontier → consolidate shared hotspots → serial integration last → manifest. Stops at the manifest
+  (dispatch/worktrees are the harness's job; branching/landing is `memory`'s). Load AFTER the design
+  is settled and BEFORE putting more than one agent on the work. Triggers: parallelize, decompose,
+  wave plan, split this work, fan out, what can run in parallel, break this into tasks, run N at
+  once, do these concurrently, file-disjoint, frontier, task manifest.
 ---
 
 # Wave Planning — decompose one goal into a collision-free parallel build

@@ -1,17 +1,14 @@
 ---
 name: data-dvc
 description: >
-  How this repo versions **data and model artifacts with DVC** — the git-for-data layer that keeps
-  large files out of git while a tiny pointer tracks them. Carries the commands that work today:
-  `dvc add data/<...>` to track a dataset (writes a `.dvc` pointer git commits while the bytes live in
-  remote storage), `dvc remote add` to wire S3/GCS/SSH storage, `dvc push`/`dvc pull` to move blobs, and
-  reproducible pipelines (`dvc.yaml` stages, `dvc repro`, `dvc.lock`). The payoff: a git commit pins an
-  exact data+model version, so a fresh `git checkout <sha>` + `dvc pull` reproduces the exact bytes that
-  run used. Reach for it before adding a dataset or checkpoint to the repo, wiring remote storage, or
-  building a reproducible data→train→eval pipeline. Triggers: dvc, dvc add, dvc push, dvc pull, dvc repro,
-  dvc remote, dvc.yaml, dvc.lock, .dvc file, data versioning, version a dataset, track a model checkpoint,
-  data pointer, remote storage, S3/GCS/SSH remote, reproducible pipeline, pin data to a commit, big files
-  in git, "how do I check in this dataset", dataset provenance, tie data to code.
+  Versioning data and model artifacts with DVC — large files stay out of git while a tiny pointer
+  tracks them; a git commit + `dvc pull` reproduces the exact bytes a run used. Carries: `dvc add`
+  (writes the `.dvc` pointer git commits), `dvc remote add` for S3/GCS/SSH storage, `dvc push`/`dvc
+  pull` to move blobs, and reproducible pipelines (`dvc.yaml` stages, `dvc repro`, `dvc.lock`). Load
+  before adding a dataset or checkpoint to the repo, wiring remote storage, or building a
+  reproducible data→train→eval pipeline. Triggers: dvc, dvc add, dvc push, dvc pull, dvc repro,
+  dvc.yaml, .dvc file, data versioning, version a dataset, track a model checkpoint, remote storage,
+  pin data to a commit, big files in git, dataset provenance, tie data to code.
 ---
 
 # data-dvc — data & model versioning with DVC

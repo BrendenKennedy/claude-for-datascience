@@ -1,18 +1,16 @@
 ---
 name: evaluation
 description: >
-  How this repo measures a model — choosing the metric that matches the task, running a deterministic
-  eval script separate from training, comparing runs through the tracker, and doing error analysis instead
-  of trusting one aggregate number. Carries: metrics by task (classification: accuracy / precision /
-  recall / F1 / confusion matrix; detection & segmentation: mAP@IoU, IoU, PR curves) and how to pick the
-  metric + operating point for the job; the touch-the-test-set-ONCE rule; comparing runs via
-  `tracking-mlflow`; error analysis (worst cases, per-class, data slices); qualitative prediction
-  visualization; and calibration. Reach for it when building an eval harness, reporting a score, deciding
-  a threshold, or explaining why a model fails. Triggers: evaluate, evaluation, eval script, metric,
-  which metric, accuracy, precision, recall, F1, confusion matrix, ROC, AUC, PR curve, threshold,
-  operating point, mAP, mAP@0.5, IoU, detection metric, segmentation metric, dice, per-class,
-  error analysis, worst cases, failure cases, data slice, slice analysis, calibration, reliability
-  diagram, ECE, test set, held-out, compare runs, benchmark the model, is it good enough.
+  Measuring a model — the metric that matches the task, a deterministic eval script separate from
+  training, run comparison via the tracker, and error analysis instead of one aggregate number.
+  Carries: metrics by task (classification: accuracy/precision/recall/F1/confusion matrix; detection
+  & segmentation: mAP@IoU, IoU, PR curves), picking the operating point, the touch-the-test-set-ONCE
+  rule, error analysis (worst cases, per-class, data slices), qualitative prediction visualization,
+  and calibration. Load when building an eval harness, reporting a score, deciding a threshold, or
+  explaining why a model fails. Triggers: evaluate, evaluation, eval script, metric, accuracy,
+  precision, recall, F1, confusion matrix, ROC, AUC, PR curve, threshold, operating point, mAP, IoU,
+  dice, per-class, error analysis, worst cases, failure cases, slice, calibration, ECE, compare
+  runs, is it good enough.
 ---
 
 # evaluation — measuring the model, honestly

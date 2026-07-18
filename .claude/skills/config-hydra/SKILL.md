@@ -1,17 +1,15 @@
 ---
 name: config-hydra
 description: >
-  How this repo composes run configuration with **Hydra** (built on OmegaConf) — the `conf/` tree of
-  config groups, the `@hydra.main` entry decorator, the defaults list, CLI overrides, and multirun
-  sweeps. Carries the commands that work today: `uv run python train.py optimizer=adamw optimizer.lr=3e-4`
-  to override, `-m optimizer.lr=1e-3,3e-4` to sweep, structured/typed configs via dataclasses,
-  `${...}` interpolation, the per-run output dir, and `OmegaConf.to_container(cfg, resolve=True)` to
-  snapshot the exact config that ran so it can be logged. Reach for it when adding a hyperparameter,
-  wiring a new config group, running a sweep, or asking "where does this value come from". Triggers:
-  hydra, omegaconf, config, conf/, config group, defaults list, @hydra.main, config_path, config_name,
-  override, CLI override, multirun, sweep, -m, structured config, dataclass config, interpolation,
-  ${...}, MISSING, output dir, hydra output, resolve config, to_container, compose, config composition,
-  hyperparameter, where does this value come from.
+  Run configuration with Hydra (on OmegaConf) — the `conf/` tree of config groups, `@hydra.main`,
+  the defaults list, CLI overrides, and multirun sweeps. Carries the commands that work today: `uv
+  run python train.py optimizer=adamw optimizer.lr=3e-4` to override, `-m optimizer.lr=1e-3,3e-4` to
+  sweep, structured/typed configs via dataclasses, `${...}` interpolation, the per-run output dir,
+  and `OmegaConf.to_container(cfg, resolve=True)` to snapshot the exact config that ran so it can be
+  logged. Load when adding a hyperparameter, wiring a new config group, running a sweep, or asking
+  where a value comes from. Triggers: hydra, omegaconf, config, conf/, config group, defaults list,
+  @hydra.main, override, multirun, sweep, structured config, interpolation, MISSING, hydra output
+  dir, resolve config, hyperparameter, where does this value come from.
 ---
 
 # config-hydra — composing run config with Hydra

@@ -1,18 +1,17 @@
 ---
 name: datasets
 description: >
-  How this repo defines and handles a **computer-vision dataset** — the split discipline, label formats,
-  layout, and provenance that everything downstream depends on. Carries the rules that actually bite:
-  train/val/test split **once** with a fixed seed and **no leakage** (group/subject/temporal split when
-  samples share a source), the label formats you'll meet (**COCO JSON**, **YOLO txt**, **Pascal VOC XML**)
-  and when each is used plus how to convert, the on-disk dataset layout + a provenance manifest (source,
-  license, version), and the hard line between deterministic preprocessing and random augmentation. Reach
-  for it before making a split, adding or converting annotations, computing class balance/normalization
-  stats, or wiring a new dataset in. Triggers: dataset, split, train/val/test, train test split, holdout,
-  data leakage, leakage, group split, subject split, temporal split, stratify, class balance, class
-  imbalance, COCO, COCO JSON, YOLO, YOLO txt, Pascal VOC, VOC XML, bounding box, annotation, label format,
-  convert annotations, dataset manifest, provenance, license, normalization stats, mean std, preprocessing
-  vs augmentation, augmentation, resize, holdout set, eval set, don't touch test.
+  Defining and handling a CV dataset — the split discipline, label formats, layout, and provenance
+  everything downstream depends on. Carries the rules that bite: split ONCE with a fixed seed and no
+  leakage (group/subject/temporal split when samples share a source), label formats (COCO JSON, YOLO
+  txt, Pascal VOC XML) + the conversion traps, on-disk layout + provenance manifest
+  (source/license/version), one-class anomaly-detection layout (normal-only fit set), deterministic
+  preprocessing vs random augmentation, and stats computed on train only. Load before making a
+  split, adding or converting annotations, computing class balance or normalization stats, or wiring
+  a new dataset in. Triggers: dataset, split, train/val/test, holdout, leakage, group split,
+  temporal split, stratify, class imbalance, COCO, YOLO, Pascal VOC, bounding box, label format,
+  convert annotations, manifest, normalization stats, mean std, augmentation, eval set, don't touch
+  test.
 ---
 
 # datasets — defining and handling a CV dataset

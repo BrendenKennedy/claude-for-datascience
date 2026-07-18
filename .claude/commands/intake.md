@@ -1,15 +1,61 @@
 ---
-description: One-time onboarding — interview the user for their stack, write skillOverrides, and fill the answerable <PLACEHOLDER>s.
+description: One-time onboarding — the "what are we building?" definition interview (archetype, T1, anti-pattern challenge), then the stack interview: write skillOverrides and fill the answerable <PLACEHOLDER>s.
+disable-model-invocation: true
 ---
 
-Onboard this scaffold to the user's actual stack. This is a **one-time** run: interview, flip the
-tool-skill profile, resolve the placeholders the answers determine, then report. Work through the
-steps in order; don't skip ahead.
+Onboard this scaffold to the user's actual project and stack. This is a **one-time** run: define the
+project, interview for the stack, flip the tool-skill profile, resolve the placeholders the answers
+determine, then report. Work through the steps in order; don't skip ahead.
 
-## 1. Interview (use the **AskUserQuestion** tool)
+## 0. Project definition — "so what are we building?" (before any stack question)
+
+The stack must serve the project, so the project gets defined first. **Load the `process` skill**;
+the canon for what a definition contains is `PROCESS.md` P1 + template T1. This step is a
+**conversation, not a form**. (Re-run of intake to change stacks? If
+`.claude/memory/process/project-definition.md` already exists, skip to step 1 — revisit the
+definition only on a genuine pivot, which also means a decision-log entry.)
+
+- **Open question.** "What are we building?" in plain conversation — not AskUserQuestion. Let the
+  user talk; follow up until you can state in your own words what is produced, for whom, and what
+  decision it changes. Reflect it back and get a "yes, that's it."
+- **Classify the archetype** (AskUserQuestion once you have context): computer vision · classical
+  DS on structured/tabular data · time-series/forecasting · NLP / LLM application · AI agent build ·
+  autonomous systems/robotics · analytics & reporting. **Be honest about lane fit, out loud:** this
+  scaffold is CV/DS-tuned. The chassis (`process`, `memory`, `governance`, `testing`,
+  `wave-planning`) and the PROCESS.md phases are archetype-agnostic — an agent build still has data
+  discovery, baselines, and eval — but the workflow skills (`datasets`, `training`, `evaluation`,
+  `pipelines`, `annotation`) and `/bootstrap`'s skeleton are CV-shaped. State exactly what fits and
+  what doesn't, and ask whether to proceed with the gaps recorded — never silently pretend the CV
+  skills cover an out-of-lane build.
+- **Fill T1 conversationally:** prediction target · consumer & the decision it changes ·
+  constraints (deadline, data access, budget, and the **compute math** — est. cost of one training
+  run × runs implied, vs. hardware and deadline) · success metric + threshold + the baseline it
+  must beat · non-ML benchmark · **kill criteria** · feasibility notes. An unanswerable field is
+  recorded as an open question — an honest blank beats an invented answer; the P1 gate will catch it.
+- **The challenge pass — the reason this step exists.** Before anything is set in stone, examine
+  the plan for anti-patterns: no baseline / straight to the deep model · metric mismatch (accuracy
+  on imbalance, no calibration where probabilities are consumed) · leakage baked into the framing
+  (inputs not actually available at prediction time) · data assumed rather than verified
+  (licensing/ToS, access) · no kill criteria / unfalsifiable goal · scope with no v1 contract.
+  Where you're unsure of current best practice — or the archetype is fast-moving (LLM apps, agents)
+  — **WebSearch before opining**; don't challenge from stale memory. Then push back specifically:
+  *"are you sure about X? The typical approach is Y because Z — here's what I found."* The user
+  decides; your job is making sure it's a decision, not a default. Every challenge that changes (or
+  deliberately doesn't change) the plan gets a line in `.claude/memory/process/decision-log.md`,
+  alternatives included.
+- **Write the definition doc** at `.claude/memory/process/project-definition.md`, sections:
+  **Archetype & lane fit** (incl. skill/skeleton gaps) · **Problem definition (T1)** ·
+  **Challenged decisions** (one line each, pointing at the decision log) · **Setup implications**
+  (suggested pre-answers for the stack interview below and for `/bootstrap`'s interview — task
+  type, dataset slug, backbone/method family) · **Open questions**. Seed the v1 contract into
+  `scope-ledger.md` and framing-level risks into `risk-register.md` — they were just discussed;
+  don't make the user restate them at the first `/gate`.
+
+## 1. Stack interview (use the **AskUserQuestion** tool)
 
 Ask these — one question each, with the defaults marked. Batch them into a single AskUserQuestion call
-where the tool allows:
+where the tool allows. The definition doc's **Setup implications** may already answer some:
+present those as the pre-selected option and confirm, don't re-ask blind:
 
 - **Experiment tracker** — MLflow *(default)* / Weights & Biases / none.
 - **Config system** — Hydra *(default)* / plain OmegaConf / argparse. **Warn at selection time** if
@@ -109,6 +155,9 @@ Print a short summary:
   classes above** — "will be filled by `/bootstrap`" vs. "needs your decision". A flat list reads as a
   to-do the user must do by hand, which is wrong and makes it look like intake failed.
 
-Then: **this command is one-time** — re-run only to change stacks. **Next step is `/bootstrap`**, which
-builds the skeleton (`conf/` + `train.py`/`eval.py`) that every skill's examples assume. Say this
-explicitly — the scaffold is not usable until it's run.
+Then: **this command is one-time** — re-run only to change stacks (the definition step is skipped on
+re-runs; see step 0). **Next step is `/bootstrap`**, which builds the skeleton (`conf/` +
+`train.py`/`eval.py`) that every skill's examples assume — it reads the definition doc's Setup
+implications, so its interview should mostly be confirmation. Say this explicitly — the scaffold is
+not usable until it's run. After `/bootstrap`: run **`/gate`** — the definition doc is most of P1's
+gate evidence, so the review should be quick.
