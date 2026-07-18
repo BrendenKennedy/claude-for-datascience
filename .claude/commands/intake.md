@@ -71,7 +71,10 @@ present those as the pre-selected option and confirm, don't re-ask blind:
   required commit trailer — none *(default)* / a custom line (e.g. a `Co-Authored-By`). Fills the
   `memory` skill's commit/land placeholders, which `/wrapup` runs against.
 - **LLM fine-tuning** — ask **only if** the definition doc's archetype involves LLM work: Unsloth
-  *(default when applicable)* / none. Flips `finetune-unsloth`.
+  *(default when applicable)* / none. Flips `finetune-unsloth` **and** `llm-eval` together (a
+  fine-tune you can't measure isn't a deliverable).
+- **HPO** — Hydra multirun grids only *(default)* / Optuna (continuous spaces, pruning, resumable
+  search). Flips `hpo-optuna`.
 
 Capture the five answers before touching any file.
 
@@ -88,6 +91,8 @@ Edit `.claude/settings.json` — set each key to `"on"` or `"off"` from the answ
 | `config-omegaconf` | config = plain OmegaConf |
 | `data-dvc` | data versioning = DVC |
 | `finetune-unsloth` | LLM fine-tuning = Unsloth |
+| `llm-eval` | LLM fine-tuning = Unsloth (flips with it) |
+| `hpo-optuna` | HPO = Optuna |
 
 Exactly one tracker key and one config key should be `on`; the unchosen siblings go `off`. If the tracker
 or data-versioning answer is "none", leave all keys in that group `off`. **Note:** the `config-omegaconf`

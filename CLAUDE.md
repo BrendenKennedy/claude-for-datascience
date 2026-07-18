@@ -35,8 +35,8 @@ Auto-surface by description (that text is the entire routing surface — see
   `pipelines` · `notebooks`
 - **Tool-gated** (one tool each; `/intake` flips via `skillOverrides`): `env-uv` (on) ·
   `tracking-mlflow` (on) · `config-hydra` (on) · `data-dvc` (on) · `tracking-wandb` (off) ·
-  `finetune-unsloth` (off). Each carries a `**Pinned:**` version line — `/skill-update` keeps the
-  facts true for the version the project actually runs.
+  `finetune-unsloth` (off) · `llm-eval` (off) · `hpo-optuna` (off). Each carries a `**Pinned:**`
+  version line — `/skill-update` keeps the facts true for the version the project actually runs.
 
 ## Subagents — `.claude/agents/<name>.md`
 `code-reviewer` (diff review, ML lens) · `software-architect` (read-only planning, project

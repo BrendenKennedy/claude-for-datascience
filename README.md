@@ -83,7 +83,8 @@ flowchart LR
 │   ├── (chassis)             # process · governance · memory · testing · wave-planning
 │   ├── (CV/DS domain)        # datasets · annotation · training · evaluation · pipelines · notebooks
 │   ├── (tool, /intake-gated) # env-uv · tracking-mlflow · config-hydra · data-dvc · tracking-wandb
-│   │                         #   · finetune-unsloth — each version-pinned; /skill-update syncs them
+│   │                         #   · finetune-unsloth · llm-eval · hpo-optuna — each version-pinned;
+│   │                         #     /skill-update syncs them to the installed dep
 │   └── _example/             # how to write a skill
 ├── commands/                 # setup · intake · bootstrap · gate · skill-update · review · wrapup · _TEMPLATE
 ├── hooks/

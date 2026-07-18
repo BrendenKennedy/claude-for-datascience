@@ -36,7 +36,9 @@
     "data-dvc": "on",
     "tracking-wandb": "off",
     "config-omegaconf": "off",
-    "finetune-unsloth": "off"
+    "finetune-unsloth": "off",
+    "llm-eval": "off",
+    "hpo-optuna": "off"
   },
   "hooks": {
     "PreToolUse": [
