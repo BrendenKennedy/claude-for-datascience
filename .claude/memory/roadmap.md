@@ -15,6 +15,9 @@ written gate + a decision-log line.
   copies, so the two never drift. v0.9.0 shipped the canonical-home *guidance*; this is the automation.
 - **`/wrapup` × `memory` skill restatement drift** (this repo's own journal): `/wrapup` copies the
   memory skill's step list; watch for real drift, and if it bites, reference the numbered steps instead.
+- **Cross-project scaffold-journal harvest** (this session's own friction): `/scaffold-retro` reads
+  only this repo's journal, but the richest dogfood signal lives in installed projects' journals
+  (git-untracked, local). Let `/scaffold-retro` accept a downstream journal path, or `/upgrade` surface it.
 - Run `/doctor` to confirm the skill-listing budget post-rewrite
 - Watch skill surfacing after the description rewrite; sharpen under-triggering descriptions
 - Dogfood-tune the `SessionStart` briefing: is its length right, and does the "finish before
@@ -35,7 +38,8 @@ written gate + a decision-log line.
   headline lesson); `/gate` PASS cascades to roadmap; `/intake` mandatory env-confirm + VC-scope +
   skillOverrides session-boundary note; `guard-pyproject` anchored on TOML headers; `env-uv`
   isolated-GPU-env pattern + line-length-100 convention; `tabular` prove-on-synthetic-flip-to-real
-  documented — 2026-07-19, branch `scaffold-refine-dota2-dogfood`. See `scaffold-journal.md` Themes.
+  documented — 2026-07-19, [session note](sessions/2026-07-19-dota2-dogfood-refining-patch.md),
+  branch `scaffold-refine-dota2-dogfood`, commit `826914f`. See `scaffold-journal.md` Themes.
 - Multi-archetype `/bootstrap` skeletons (tabular §3e, time-series §3f, LLM data+eval §3g) — 2026-07-18, v0.8.0
 - Ship clean memory stores — `install.sh` no longer copies this repo's dev session notes / roadmap /
   journal into fresh projects; seeds blank stores from `templates/memory/` — 2026-07-18,
